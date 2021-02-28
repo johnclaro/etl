@@ -1,11 +1,6 @@
 import pandas as pd
 
 
-def extract(url):
-    df = pd.read_csv(url)
-    return df
-
-
 def transform(df):
     df.columns = df.columns.str.strip().str.lower()
     df['date'] = pd.to_datetime(df['date'])
@@ -32,17 +27,3 @@ def combine(ny, jh):
     df.columns = df.columns.str.replace('cases_ny', 'cases')
     df.columns = df.columns.str.replace('deaths_ny', 'deaths')
     return df
-
-
-def main():
-    ny = extract('https://raw.githubusercontent.com/nytimes/covid-19-data/master/us.csv')
-    jh = extract('https://raw.githubusercontent.com/datasets/covid-19/master/data/time-series-19-covid-combined.csv')
-
-    ny = transform(ny)
-    jh = transform(jh)
-
-    df = combine(ny, jh)
-
-
-if __name__ == '__main__':
-    main()
