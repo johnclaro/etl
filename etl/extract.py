@@ -1,6 +1,6 @@
 import pandas as pd
 
 
-def extract(url):
+def website(url):
     df = pd.read_csv(url)
     return df

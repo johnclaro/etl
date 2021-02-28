@@ -1,7 +1,13 @@
 import pandas as pd
 
 
-def transform(df):
+def new_york_times(df):
+    df.columns = df.columns.str.strip().str.lower()
+    df['date'] = pd.to_datetime(df['date'])
+    return df
+
+
+def john_hopkins(df):
     df.columns = df.columns.str.strip().str.lower()
     df['date'] = pd.to_datetime(df['date'])
     columns = {

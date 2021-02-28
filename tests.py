@@ -2,7 +2,7 @@ import unittest
 import pandas as pd
 import numpy as np
 
-import transformer
+import etl
 
 
 class TestTransform(unittest.TestCase):
@@ -19,11 +19,11 @@ class TestTransform(unittest.TestCase):
         self.df = pd.DataFrame(data=data)
 
     def test_country_us_only(self):
-        df = transformer.transform(self.df)
+        df = etl.transform.john_hopkins(self.df)
         self.assertTrue('Ireland' not in df.values)
 
     def test_columns_forward_slash(self):
-        df = transformer.transform(self.df)
+        df = etl.transform.john_hopkins(self.df)
         columns = [
             'date',
             'country',
