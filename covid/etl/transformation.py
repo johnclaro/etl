@@ -1,5 +1,5 @@
 import datetime
-from datetime import date, timedelta
+from datetime import timedelta
 
 import pandas as pd
 
