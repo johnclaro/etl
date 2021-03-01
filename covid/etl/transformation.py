@@ -26,7 +26,12 @@ def filtrate(df, timeset):
 
     if timeset == 'yesterday':
         yesterday = datetime.datetime.now() - timedelta(days=1)
-        yesterday = yesterday.replace(hour=0, minute=0, second=0, microsecond=0)
+        yesterday = yesterday.replace(
+            hour=0,
+            minute=0,
+            second=0,
+            microsecond=0
+        )
         df = df[df.date == yesterday]
 
     return df
