@@ -2,14 +2,14 @@ import covid
 
 
 def main():
-    nyt = covid.extract.new_york_times()
-    jh = covid.extract.john_hopkins()
+    nyt = covid.etl.extract(covid.datasets.NEW_YORK_TIMES)
+    jh = covid.etl.extract(covid.datasets.JOHN_HOPKINS)
 
-    nyt = covid.transformation.transform(nyt)
-    jh = covid.transformation.transform(jh)
-    df = covid.transformation.join(nyt, jh)
+    nyt = covid.etl.transform(nyt)
+    jh = covid.etl.transform(jh)
+    df = covid.etl.join(nyt, jh)
 
-    # print(df[df.date == '2020-12-14'])
+    print(df)
 
 
 if __name__ == '__main__':
