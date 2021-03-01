@@ -45,7 +45,7 @@ def join(nyt, jh):
     return df
 
 
-def transform(df, date):
+def transform(df, timeset):
     df = clean(df)
-    df = filtrate(df, date)
+    df = filtrate(df, timeset)
     return df
