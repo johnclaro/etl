@@ -27,9 +27,9 @@ def john_hopkins(df):
     return df
 
 
-def combine(ny, jh):
-    df = ny.merge(jh, on='date', suffixes=('_ny', '_jh'))
-    df = df[['date', 'cases_ny', 'deaths_ny', 'recovered']]
-    df.columns = df.columns.str.replace('cases_ny', 'cases')
-    df.columns = df.columns.str.replace('deaths_ny', 'deaths')
+def combine(nyt, jh):
+    df = nyt.merge(jh, on='date', suffixes=('_nyt', '_jh'))
+    df = df[['date', 'cases_nyt', 'deaths_nyt', 'recovered']]
+    df.columns = df.columns.str.replace('cases_nyt', 'cases')
+    df.columns = df.columns.str.replace('deaths_nyt', 'deaths')
     return df
