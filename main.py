@@ -1,13 +1,13 @@
-import etl
+import covid
 
 
 def main():
-    nyt = etl.extract.new_york_times()
-    jh = etl.extract.john_hopkins()
+    nyt = covid.extract.new_york_times()
+    jh = covid.extract.john_hopkins()
 
-    nyt = etl.transformation.transform(nyt)
-    jh = etl.transformation.transform(jh)
-    df = etl.transformation.join(nyt, jh)
+    nyt = covid.transformation.transform(nyt)
+    jh = covid.transformation.transform(jh)
+    df = covid.transformation.join(nyt, jh)
 
     # print(df[df.date == '2020-12-14'])
 

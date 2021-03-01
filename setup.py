@@ -16,7 +16,7 @@ setup(
     author='John Claro',
     author_email='jkrclaro@gmail.com',
     description='ETL for Covid datasets',
-    keywords='etl covid',
+    keywords='covid covid',
     url='https://github.com/johnclaro/covid.git'
 )
 
