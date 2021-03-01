@@ -4,7 +4,7 @@ import covid
 
 
 def lambda_handler(event, context):
-    timeset = context['timeset']
+    timeset = event['timeset']
 
     nyt = covid.etl.extract(covid.datasets.NEW_YORK_TIMES)
     jh = covid.etl.extract(covid.datasets.JOHN_HOPKINS)
@@ -27,5 +27,5 @@ if __name__ == '__main__':
         help='Provide date range of dataset to be uploaded'
     )
     args = parser.parse_args()
-    context = {'timeset': args.timeset}
-    lambda_handler(None, context)
+    event = {'timeset': args.timeset}
+    lambda_handler(event, None)
