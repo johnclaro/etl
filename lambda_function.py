@@ -12,7 +12,6 @@ def lambda_handler(event, context):
     nyt = covid.etl.transform(nyt, timeset)
     jh = covid.etl.transform(jh, timeset)
     df = covid.etl.join(nyt, jh)
-    print(df)
 
     return {'status': 200}
 
