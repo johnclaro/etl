@@ -42,9 +42,6 @@ jobs:
         run: |
           zip -r covid.zip lambda_function.py covid/
           aws lambda update-function-code --function-name covid --zip-file fileb://covid.zip
-        with:
-          lambda_function_name: ${{ secrets.LAMBDA_FUNCTION_ARN }}
-          lambda_region: eu-west-1
         env:
           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
