@@ -3,8 +3,8 @@ from datasets import Dataset
 
 
 def main():
-    nyt = etl.extraction.extract(Dataset.NEW_YORK_TIMES)
-    jh = etl.extraction.extract(Dataset.JOHN_HOPKINS)
+    nyt = etl.extract.extract(Dataset.NEW_YORK_TIMES)
+    jh = etl.extract.extract(Dataset.JOHN_HOPKINS)
 
     nyt = etl.transformation.transform(nyt)
     jh = etl.transformation.transform(jh)
