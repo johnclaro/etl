@@ -1,7 +1,7 @@
 import covid
 
 
-def main():
+def lambda_handler():
     nyt = covid.etl.extract(covid.datasets.NEW_YORK_TIMES)
     jh = covid.etl.extract(covid.datasets.JOHN_HOPKINS)
 
@@ -13,4 +13,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    lambda_handler()
