@@ -1,3 +1,6 @@
+import datetime
+from datetime import date, timedelta
+
 import pandas as pd
 
 
@@ -15,11 +18,16 @@ def clean(df):
     return df
 
 
-def filtrate(df):
+def filtrate(df, timeset):
     try:
         df = df[df.country == 'US']
     except AttributeError:
         pass
+
+    if timeset == 'yesterday':
+        yesterday = datetime.datetime.now() - timedelta(days=1)
+        yesterday = yesterday.replace(hour=0, minute=0, second=0, microsecond=0)
+        df = df[df.date == yesterday]
 
     return df
 
@@ -32,7 +40,7 @@ def join(nyt, jh):
     return df
 
 
-def transform(df):
+def transform(df, date):
     df = clean(df)
-    df = filtrate(df)
+    df = filtrate(df, date)
     return df
