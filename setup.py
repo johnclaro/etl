@@ -19,5 +19,3 @@ setup(
     keywords='covid covid',
     url='https://github.com/johnclaro/covid.git'
 )
-
-
