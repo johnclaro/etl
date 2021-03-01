@@ -34,5 +34,3 @@ jobs:
     - name: Test with unittest
       run: |
         python tests.py
-        
-        pytest
