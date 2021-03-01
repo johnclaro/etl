@@ -5,7 +5,6 @@ import covid
 
 def lambda_handler(event, context):
     timeset = event['timeset']
-    print(timeset)
 
     nyt = covid.etl.extract(covid.datasets.NEW_YORK_TIMES)
     jh = covid.etl.extract(covid.datasets.JOHN_HOPKINS)
@@ -13,7 +12,7 @@ def lambda_handler(event, context):
     nyt = covid.etl.transform(nyt, timeset)
     jh = covid.etl.transform(jh, timeset)
     df = covid.etl.join(nyt, jh)
-    print(df.memory_usage)
+    print(df)
 
     return {'status': 200}
 
