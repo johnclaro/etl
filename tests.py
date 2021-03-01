@@ -18,12 +18,13 @@ class TestTransform(unittest.TestCase):
         }
         self.df = pd.DataFrame(data=data)
 
-    def test_country_us_only(self):
-        df = etl.transform.john_hopkins(self.df)
+    def test_transformation_filtrate(self):
+        df = etl.transformation.transform(self.df)
+        df = etl.transformation.filtrate(df)
         self.assertTrue('Ireland' not in df.values)
 
-    def test_columns_forward_slash(self):
-        df = etl.transform.john_hopkins(self.df)
+    def test_transformation_clean(self):
+        df = etl.transformation.clean(self.df)
         columns = [
             'date',
             'country',

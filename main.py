@@ -1,15 +1,15 @@
 import etl
+from datasets import Dataset
 
 
 def main():
-    nyt = etl.extract.csv('https://raw.githubusercontent.com/nytimes/covid-19-data/master/us.csv')
-    jh = etl.extract.csv('https://raw.githubusercontent.com/datasets/covid-19/master/data/time-series-19-covid-combined.csv')
+    nyt = etl.extraction.extract(Dataset.NEW_YORK_TIMES)
+    jh = etl.extraction.extract(Dataset.JOHN_HOPKINS)
 
-    nyt = etl.transform.new_york_times(nyt)
-    jh = etl.transform.john_hopkins(jh)
-    # print(jh)
+    nyt = etl.transformation.transform(nyt)
+    jh = etl.transformation.transform(jh)
+    df = etl.transformation.join(nyt, jh)
 
-    df = etl.transform.combine(nyt, jh)
     # print(df[df.date == '2020-12-14'])
 
 
