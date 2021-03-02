@@ -20,7 +20,7 @@ def clean(df):
 
 def filtrate(df, timeset):
     try:
-        df = df[df.country == 'US']
+        df = df[df.country == 'Ireland']
     except AttributeError:
         pass
 

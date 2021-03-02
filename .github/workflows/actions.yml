@@ -40,7 +40,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Deploy code to Lambda
         run: |
-          zip -r covid.zip lambda_function.py covid/
+          zip -r covid.zip lambda_function.py settings.py covid/
           aws lambda update-function-code --function-name covid --zip-file fileb://covid.zip
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
