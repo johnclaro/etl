@@ -34,11 +34,11 @@ jobs:
         python tests.py
 
   deploy:
-    name: deploy lambda function
+    name: deploy
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Deploy code to Lambda
+      - name: Update Lambda
         run: |
           zip -r covid.zip lambda_function.py settings.py covid/
           aws lambda update-function-code --function-name covid --zip-file fileb://covid.zip

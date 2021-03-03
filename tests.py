@@ -19,7 +19,7 @@ class TestTransform(unittest.TestCase):
         self.df = pd.DataFrame(data=data)
 
     def test_transformation_filtrate(self):
-        df = covid.etl.transform(self.df, 'full')
+        df = covid.etl.transform(self.df, 'yesterday')
         self.assertTrue('Ireland' not in df.values)
 
     def test_transformation_clean(self):

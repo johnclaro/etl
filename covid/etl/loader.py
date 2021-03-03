@@ -1,7 +1,7 @@
 import urllib
 from urllib.parse import urljoin
 
-import settings
+from covid import settings
 
 
 def load(df):
