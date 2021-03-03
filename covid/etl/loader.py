@@ -13,4 +13,4 @@ def load(df):
     payload = {'df_b64': df_b64}
     data = urllib.parse.urlencode(payload).encode('utf-8')
     response = urllib.request.urlopen(url, data)
-    print(response)
+    return response
