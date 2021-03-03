@@ -1,19 +1,16 @@
 import urllib
+import pickle
+import base64
 from urllib.parse import urljoin
 
 from covid import settings
 
 
 def load(df):
-    payload = {
-        'date': df.iloc[0]['date'],
-        'cases': df.iloc[0]['cases'],
-        'deaths': df.iloc[0]['deaths'],
-        'recovered': df.iloc[0]['recovered']
-    }
     url = urljoin(settings.WEBSITE_URL, 'covid/upsert')
-    print(url)
-
-    data = urllib.parse.urlencode(payload).encode('ascii')
+    pickled = pickle.dumps(df)
+    df_b64 = base64.b64encode(pickled)
+    payload = {'df_b64': df_b64}
+    data = urllib.parse.urlencode(payload).encode('utf-8')
     response = urllib.request.urlopen(url, data)
-    print(response.read())
+    print(response)

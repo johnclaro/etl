@@ -24,6 +24,8 @@ def filtrate(df, timeset):
     except AttributeError:
         pass
 
+    df = df.drop(columns=['state'])
+
     if timeset == 'yesterday':
         yesterday = datetime.datetime.now() - timedelta(days=1)
         yesterday = yesterday.replace(
