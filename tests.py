@@ -29,7 +29,7 @@ class TestTransform(unittest.TestCase):
             'country',
             'state',
             'cases',
-            'recovered',
+            'recoveries',
             'deaths'
         ]
         for index, column in enumerate(df.columns):
