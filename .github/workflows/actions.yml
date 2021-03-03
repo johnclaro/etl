@@ -10,7 +10,7 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -32,17 +32,11 @@ jobs:
     - name: Test with unittest
       run: |
         python tests.py
-
-  deploy:
-    name: deploy
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Update Lambda
-        run: |
-          zip -r covid.zip lambda_function.py settings.py covid/
-          aws lambda update-function-code --function-name covid --zip-file fileb://covid.zip
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: eu-west-1
+    - name: Update AWS Lambda
+      run: |
+        zip -r covid.zip lambda_function.py settings.py covid/
+        aws lambda update-function-code --function-name covid --zip-file fileb://covid.zip
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: eu-west-1
