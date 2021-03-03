@@ -4,7 +4,7 @@ import covid
 
 
 def lambda_handler(event, context):
-    timeset = event['timeset']
+    timeset = event.get('timeset', 'yesterday')
     jh = covid.etl.extract(covid.datasets.JOHN_HOPKINS)
     jh = covid.etl.transform(jh, timeset)
     response = covid.etl.load(jh)
