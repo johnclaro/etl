@@ -7,8 +7,8 @@ def lambda_handler(event, context):
     timeset = event.get('timeset', 'yesterday')
     jh = covid.etl.extract(covid.datasets.JOHN_HOPKINS)
     jh = covid.etl.transform(jh, timeset)
-    response = covid.etl.load(jh)
-    return {'status': response.read()}
+    loaded = covid.etl.load(jh)
+    return {'status': f'Upserted {loaded} row(s)'}
 
 
 if __name__ == '__main__':
@@ -22,4 +22,5 @@ if __name__ == '__main__':
     )
     args = parser.parse_args()
     event = {'timeset': args.timeset}
-    lambda_handler(event, None)
+    response = lambda_handler(event, None)
+    print(response)
