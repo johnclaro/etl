@@ -4,16 +4,17 @@ ETL utility for Covid datasets
 
 ## Installation
 
-Uses **python3.7.0**
-```
+```sh-session
+# python3.7.0
 pip install -r requirements.txt
 ```
 
 ## Usage
 
+Refer to Installation section and run as normal
 ```sh-session
 python lambda_function.py
 
 # Run `--help` for detailed information about commands
-python lambda_function.py help
+python lambda_function.py --help
 ```
