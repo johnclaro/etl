@@ -1,14 +1,10 @@
 import argparse
 
-import requests
-
 import covid
+from covid.etl import hspc
 
 
 def lambda_handler(event, context):
-    res = requests.get('https://google.com')
-    print(res)
-
     timeset = event.get('timeset', 'yesterday')
     dataset = event.get('dataset')
     response = {'dataset': dataset}
@@ -19,8 +15,7 @@ def lambda_handler(event, context):
         rows = covid.etl.load(jh)
         response['rows'] = rows
     elif dataset == 'hspc':
-        hspc = covid.etl.extract_hspc(covid.datasets.HSPC)
-        print(hspc)
+        hspc.etl()
     return response
 
 
