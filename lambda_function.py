@@ -5,22 +5,36 @@ import covid
 
 def lambda_handler(event, context):
     timeset = event.get('timeset', 'yesterday')
-    jh = covid.etl.extract(covid.datasets.JOHN_HOPKINS)
-    jh = covid.etl.transform(jh, timeset)
-    loaded = covid.etl.load(jh)
-    return {'status': f'Upserted {loaded} row(s)'}
+    dataset = event.get('dataset')
+    response = {'dataset': dataset}
+
+    if dataset == 'john_hopkins':
+        jh = covid.etl.extract(covid.datasets.JOHN_HOPKINS)
+        jh = covid.etl.transform(jh, timeset)
+        rows = covid.etl.load(jh)
+        response['rows'] = rows
+    elif dataset == 'hspc':
+        hspc = covid.etl.extract(covid.datasets.HSPC)
+        print(hspc)
+    return response
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument(
         '--timeset',
-        choices=['full', 'yesterday'],
+        choices=('full', 'yesterday',),
         nargs='?',
         default='yesterday',
-        help='Provide date range of dataset to be uploaded'
+        help='Date range of dataset to be uploaded'
+    )
+    parser.add_argument(
+        '--dataset',
+        choices=['john_hopkins', 'hspc'],
+        required=True,
+        help='The dataset to be extracted'
     )
     args = parser.parse_args()
-    event = {'timeset': args.timeset}
+    event = vars(args)
     response = lambda_handler(event, None)
     print(response)
