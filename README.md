@@ -19,3 +19,11 @@ etl [command]
 # Run `--help` for detailed information about commands
 etl [command] -h
 ```
+
+## Layers
+
+Must include `requests` and `pandas`
+
+```sh-session
+zip -r9 layers/etl.zip layers
+```
