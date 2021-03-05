@@ -1,7 +1,7 @@
 import os
 from distutils.util import strtobool
 
-TIMESET = '1'
+DAYS = '1'
 DEBUG = bool(strtobool(os.environ.get('DEBUG', 'True')))
 
 if DEBUG:

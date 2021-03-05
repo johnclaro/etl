@@ -9,18 +9,18 @@ def get_requirements():
 
 
 setup(
-    name='beetle',
+    name='etl',
     version='1.0',
     author='John Claro',
     author_email='jkrclaro@gmail.com',
     description='ETL for Covid data',
     keywords='etl covid',
-    url='https://github.com/johnclaro/beetle.git',
+    url='https://github.com/johnclaro/etl.git',
     packages=find_packages(exclude=['tests', 'tests.py']),
     install_requires=get_requirements(),
     entry_points={
         'console_scripts': [
-            'beetle=cli:parse'
+            'etl=etl.cli:parse'
         ]
     }
 )

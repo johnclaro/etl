@@ -1,5 +1,5 @@
-# Beetle
-![Beetle Github Actions](https://github.com/johnclaro/beetle/actions/workflows/actions.yml/badge.svg)
+# ETL
+![ETL Github Actions](https://github.com/johnclaro/etl/actions/workflows/actions.yml/badge.svg)
 
 ETL for Covid data
 
@@ -13,8 +13,8 @@ pip install -e .
 
 Refer to Installation section and run as normal
 ```sh-session
-python beetle.py
+python etl.py
 
 # Run `--help` for detailed information about commands
-python beetle.py --help
+python etl.py --help
 ```

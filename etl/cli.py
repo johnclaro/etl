@@ -1,6 +1,6 @@
 import argparse
 
-import beetle
+import etl
 
 
 def parse():
@@ -22,5 +22,5 @@ def parse():
     )
     args = parser.parse_args()
     event = vars(args)
-    response = beetle.main(event, None)
+    response = etl.main(event, None)
     print(response)

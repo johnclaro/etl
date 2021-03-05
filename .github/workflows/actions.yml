@@ -1,4 +1,4 @@
-name: Beetle
+name: ETL
 on:
   push:
     branches: [ main ]
@@ -29,8 +29,8 @@ jobs:
         python tests.py
     - name: Update AWS Lambda
       run: |
-        zip -r beetle.zip lambda_function.py settings.py beetle/
-        aws lambda update-function-code --function-name beetle --zip-file fileb://beetle.zip
+        zip -r etl.zip lambda_function.py settings.py etl/
+        aws lambda update-function-code --function-name etl --zip-file fileb://etl.zip
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
