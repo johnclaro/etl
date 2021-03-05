@@ -1,22 +1,15 @@
 import argparse
 
-import covid
-from covid.etl import hspc
+from etl import jh, hspc
 
 
-def lambda_handler(event, context):
-    timeset = event.get('timeset', 'yesterday')
+def main(event, context):
     dataset = event.get('dataset')
-    response = {'dataset': dataset}
-
-    if dataset == 'john_hopkins':
-        jh = covid.etl.extract_csv(covid.datasets.JOHN_HOPKINS)
-        jh = covid.etl.transform(jh, timeset)
-        rows = covid.etl.load(jh)
-        response['rows'] = rows
+    if dataset == 'jh':
+        jh.etl(event)
     elif dataset == 'hspc':
-        hspc.etl()
-    return response
+        hspc.etl(event)
+    return {'status': 'Completed'}
 
 
 if __name__ == '__main__':
@@ -29,12 +22,13 @@ if __name__ == '__main__':
         help='Date range of dataset to be extracted and uploaded'
     )
     parser.add_argument(
+        '-d',
         '--dataset',
-        choices=('john_hopkins', 'hspc'),
+        choices=('jh', 'hspc'),
         required=True,
         help='Dataset to be extracted'
     )
     args = parser.parse_args()
     event = vars(args)
-    response = lambda_handler(event, None)
+    response = main(event, None)
     print(response)

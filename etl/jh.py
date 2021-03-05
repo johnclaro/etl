@@ -1,10 +1,21 @@
 import datetime
 from datetime import timedelta
+from urllib.parse import urljoin
 
+import requests
 import pandas as pd
 
+import settings
 
-def clean(df):
+
+def extract():
+    url = 'https://raw.githubusercontent.com/datasets/covid-19/master/data/' \
+          'time-series-19-covid-combined.csv'
+    df = pd.read_csv(url)
+    return df
+
+
+def transform(df, timeset):
     df.columns = df.columns.str.strip().str.lower()
     df['date'] = pd.to_datetime(df['date'])
     columns = {
@@ -16,10 +27,7 @@ def clean(df):
     }
     for bad_column, good_column in columns.items():
         df.columns = df.columns.str.replace(bad_column, good_column)
-    return df
 
-
-def filtrate(df, timeset):
     try:
         df = df[df.country == 'Ireland']
     except AttributeError:
@@ -40,15 +48,20 @@ def filtrate(df, timeset):
     return df
 
 
-def join(nyt, jh):
-    df = nyt.merge(jh, on='date', suffixes=('_nyt', '_jh'))
-    df = df[['date', 'cases_nyt', 'deaths_nyt', 'recoveries']]
-    df.columns = df.columns.str.replace('cases_nyt', 'cases')
-    df.columns = df.columns.str.replace('deaths_nyt', 'deaths')
-    return df
+def load(df):
+    url = urljoin(settings.WEBSITE_URL, 'covid/upsert')
+    for index, row in df.iterrows():
+        payload = {
+            'date': row.date,
+            'country': row.country,
+            'cases': row.cases,
+            'deaths': row.deaths,
+            'recoveries': row.recoveries
+        }
+        requests.post(url, data=payload)
 
 
-def transform(df, timeset):
-    df = clean(df)
-    df = filtrate(df, timeset)
-    return df
+def etl():
+    response = extract()
+    data = transform(response)
+    load(data)

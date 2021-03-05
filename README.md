@@ -1,7 +1,7 @@
-# covid
-![example workflow](https://github.com/johnclaro/covid/actions/workflows/actions.yml/badge.svg)
+# Beetle
+![Beetle Github Actions](https://github.com/johnclaro/beetle/actions/workflows/actions.yml/badge.svg)
 
-ETL utility for Covid datasets
+ETL utility mainly for Covid datasets
 
 ## Installation
 
@@ -14,8 +14,8 @@ pip install -r requirements.txt
 
 Refer to Installation section and run as normal
 ```sh-session
-python lambda_function.py
+python beetle.py
 
 # Run `--help` for detailed information about commands
-python lambda_function.py --help
+python beetle.py --help
 ```
