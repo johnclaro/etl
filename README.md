@@ -37,7 +37,6 @@ zip -r9 requests.zip layers/requests/python
 Download [pandas-1.0.3-cp37-cp37m-manylinux1_x86_64.whl](https://pypi.org/project/pandas/#files)
 and [pytz-2019.3-py2.py3-none-any.whl](https://pypi.org/project/pytz/#files)
 
-Unzip these files and move them to 
 ```sh-session
 # pandas
 mkdir -p layers/pandas/python/lib/python3.7/site-packages
