@@ -1,6 +1,6 @@
 import argparse
 
-import requests
+from botocore.vendored import requests
 
 import covid
 
