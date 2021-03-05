@@ -16,8 +16,10 @@ setup(
     description='ETL for Covid data',
     keywords='etl covid',
     url='https://github.com/johnclaro/etl.git',
-    packages=find_packages(exclude=['tests', 'tests.py']),
+    packages=find_packages(include=['etl', 'etl.*']),
     install_requires=get_requirements(),
+    setup_requires=['pytest-runner'],
+    tests_require=['pytest'],
     entry_points={
         'console_scripts': [
             'etl=etl.cli:parse'
