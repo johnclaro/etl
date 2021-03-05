@@ -5,7 +5,7 @@ from urllib.parse import urljoin
 import requests
 import pandas as pd
 
-import settings
+from .. import settings
 
 
 def extract():
@@ -15,7 +15,7 @@ def extract():
     return df
 
 
-def transform(df, timeset):
+def transform(df):
     df.columns = df.columns.str.strip().str.lower()
     df['date'] = pd.to_datetime(df['date'])
     columns = {
@@ -35,7 +35,7 @@ def transform(df, timeset):
 
     df = df.drop(columns=['state'])
 
-    if timeset == 'yesterday':
+    if settings.TIMESET == 'y':
         yesterday = datetime.datetime.now() - timedelta(days=1)
         yesterday = yesterday.replace(
             hour=0,
@@ -49,7 +49,7 @@ def transform(df, timeset):
 
 
 def load(df):
-    url = urljoin(settings.WEBSITE_URL, 'covid/upsert')
+    url = urljoin(settings.URL, 'covid/upsert')
     for index, row in df.iterrows():
         payload = {
             'date': row.date,

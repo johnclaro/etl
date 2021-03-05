@@ -1,13 +1,12 @@
 # Beetle
 ![Beetle Github Actions](https://github.com/johnclaro/beetle/actions/workflows/actions.yml/badge.svg)
 
-ETL utility mainly for Covid datasets
+ETL for Covid data
 
 ## Installation
 
 ```sh-session
-# python3.7.0
-pip install -r requirements.txt
+pip install -e .
 ```
 
 ## Usage
