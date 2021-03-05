@@ -20,7 +20,7 @@ etl [command]
 etl [command] -h
 ```
 
-To perform tests
+Run tests
 ```sh-session
 python setup.py test
 ```
