@@ -25,5 +25,6 @@ etl [command] -h
 Must include `requests` and `pandas`
 
 ```sh-session
-zip -r9 layers/etl.zip layers
+zip -r9 layers/requests.zip layers/requests/python
+zip -r9 layers/pandas.zip layers/pandas/python
 ```
