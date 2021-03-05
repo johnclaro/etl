@@ -9,12 +9,12 @@ def lambda_handler(event, context):
     response = {'dataset': dataset}
 
     if dataset == 'john_hopkins':
-        jh = covid.etl.extract(covid.datasets.JOHN_HOPKINS)
+        jh = covid.etl.extract_csv(covid.datasets.JOHN_HOPKINS)
         jh = covid.etl.transform(jh, timeset)
         rows = covid.etl.load(jh)
         response['rows'] = rows
     elif dataset == 'hspc':
-        hspc = covid.etl.extract(covid.datasets.HSPC)
+        hspc = covid.etl.extract_csv(covid.datasets.HSPC)
         print(hspc)
     return response
 
@@ -26,13 +26,13 @@ if __name__ == '__main__':
         choices=('full', 'yesterday',),
         nargs='?',
         default='yesterday',
-        help='Date range of dataset to be uploaded'
+        help='Date range of dataset to be extracted and uploaded'
     )
     parser.add_argument(
         '--dataset',
-        choices=['john_hopkins', 'hspc'],
+        choices=('john_hopkins', 'hspc'),
         required=True,
-        help='The dataset to be extracted'
+        help='Dataset to be extracted'
     )
     args = parser.parse_args()
     event = vars(args)
