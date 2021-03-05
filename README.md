@@ -16,8 +16,13 @@ Installing the CLI provides access to the `etl` command.
 ```sh-session
 etl [command]
 
-# Run `--help` for detailed information about commands
+# Run `-h` for detailed information about commands
 etl [command] -h
+```
+
+To perform tests
+```sh-session
+python setup.py test
 ```
 
 ## Layers
