@@ -17,7 +17,7 @@ Installing the CLI provides access to the `etl` command.
 etl [command]
 
 # Run `-h` for detailed information about commands
-etl [command] -h
+etl -h
 ```
 
 Run tests
