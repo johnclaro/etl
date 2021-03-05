@@ -52,14 +52,14 @@ def transform(df):
 def load(df):
     url = urljoin(settings.URL, 'covid/upsert')
     for index, row in df.iterrows():
-        payload = {
+        data = {
             'date': row.date,
             'country': row.country,
             'cases': row.cases,
             'deaths': row.deaths,
             'recoveries': row.recoveries
         }
-        requests.post(url, data=payload)
+        requests.post(url, data=data)
 
 
 def etl():

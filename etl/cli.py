@@ -18,7 +18,8 @@ def parse():
         '--source',
         choices=('jh', 'hspc'),
         required=True,
-        help='(jh) - John Hopkins, (hspc) - Health Protection Surveillance Centre'
+        help='(jh) - John Hopkins, (hspc) '
+             'Health Protection Surveillance Centre'
     )
     args = parser.parse_args()
     event = vars(args)

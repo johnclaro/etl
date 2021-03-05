@@ -5,10 +5,10 @@ from etl.sources import jh, hspc
 def main(event, context):
     etl.settings.TIMESET = event.get('timeset')
 
-    dataset = event.get('dataset')
-    if dataset == 'jh':
+    source = event.get('source')
+    if source == 'jh':
         jh.etl()
-    elif dataset == 'hspc':
+    elif source == 'hspc':
         hspc.etl()
 
     return {'status': 'Completed'}
