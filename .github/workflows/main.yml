@@ -26,7 +26,7 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
-        pytest
+        python setup.py test
     - name: Update AWS Lambda
       run: |
         zip -r etl.zip lambda_function.py settings.py etl/
