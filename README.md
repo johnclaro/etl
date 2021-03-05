@@ -1,20 +1,21 @@
 # ETL
-![ETL Github Actions](https://github.com/johnclaro/etl/actions/workflows/actions.yml/badge.svg)
+![ETL](https://github.com/johnclaro/etl/actions/workflows/main.yml/badge.svg)
 
 ETL for Covid data
 
 ## Installation
 
+ETL uses Python 3.7.0.
 ```sh-session
 pip install -e .
 ```
 
 ## Usage
 
-Refer to Installation section and run as normal
+Installing the CLI provides access to the `etl` command.
 ```sh-session
-python etl.py
+etl [command]
 
 # Run `--help` for detailed information about commands
-python etl.py --help
+etl [command] -h
 ```
