@@ -1,5 +1,5 @@
 import etl
-from etl.sources import jh, hspc
+from etl.sources import jh, hse
 
 
 def main(event, context):
@@ -9,7 +9,7 @@ def main(event, context):
     source = event.get('source')
     if source == 'jh':
         status = jh.etl()
-    elif source == 'hspc':
-        status = hspc.etl()
+    elif source == 'hse':
+        status = hse.etl()
 
-    return {**status, **event}
+    return {'status': **status, 'options': **event}

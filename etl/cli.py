@@ -7,9 +7,9 @@ def parse():
     parser = argparse.ArgumentParser()
     parser.add_argument(
         'source',
-        choices=('jh', 'hspc'),
+        choices=('jh', 'hse'),
         help='(1) jh: John Hopkins, '
-             '(2) hspc: Health Protection Surveillance Centre'
+             '(2) hse: Health Protection Surveillance Centre'
     )
     parser.add_argument(
         '-d',
