@@ -1,5 +1,10 @@
-import requests
+import json
 from datetime import datetime
+from urllib.parse import urljoin
+
+import requests
+
+from etl import settings
 
 
 class HSPC:
@@ -31,8 +36,9 @@ class HSPC:
         self.fid = fid
 
     def clean_date(self, date):
-        date = date / 1000  # Converts ms to s
+        date = date / 1000  # Convert unix timestamp in milliseconds to seconds
         date = datetime.fromtimestamp(date)
+        date = date.strftime('%Y-%m-%d %H:%M:%S')
         return date
 
 
@@ -67,6 +73,9 @@ def transform(response):
 
 
 def load(data):
+    url = urljoin(settings.URL, 'swabs/upsert')
+    data = json.dumps(data)
+    response = requests.post(url, data=data)
     return data
 
 
