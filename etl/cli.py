@@ -8,8 +8,7 @@ def parse():
     parser.add_argument(
         'source',
         choices=('jh', 'hse'),
-        help='(1) jh: John Hopkins, '
-             '(2) hse: Health Protection Surveillance Centre'
+        help='Refer to README for list of sources'
     )
     parser.add_argument(
         '-d',
@@ -24,6 +23,13 @@ def parse():
         dest='prod',
         action='store_true',
         help='Activate production mode'
+    )
+    parser.add_argument(
+        '-e',
+        '--extract',
+        choices=('cases', 'swabs', 'vaccines'),
+        default='cases',
+        help='Set dataset to be extracted'
     )
     parser.set_defaults(prod=False)
     args = parser.parse_args()

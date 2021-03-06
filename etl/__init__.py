@@ -7,9 +7,17 @@ def main(event, context):
     etl.settings.PROD = event.get('prod')
 
     source = event.get('source')
-    if source == 'jh':
-        status = jh.etl()
-    elif source == 'hse':
-        status = hse.etl()
+    extract = event.get('extract')
+
+    options = {
+        'jh': {
+            'cases': jh.etl()
+        },
+        'hse': {
+            'swabs': hse.swabs.etl()
+        }
+    }
+
+    status = options[source][extract]
 
     return {**status, **event}
