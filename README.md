@@ -25,15 +25,6 @@ Run tests
 python setup.py test
 ```
 
-## Sources
-
-Tables can be generated in [tablesgenerator.com/markdown_tables](https://www.tablesgenerator.com/markdown_tables)
-
-| Acronym | Source                   |
-|---------|--------------------------|
-| jh      | John Hopkins             |
-| hse     | Health Service Executive |
-
 ## Layers
 
 ETL requires `requests` and `pandas` dependencies for AWS Lambda

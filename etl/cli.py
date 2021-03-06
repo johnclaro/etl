@@ -7,12 +7,12 @@ def parse():
     parser = argparse.ArgumentParser()
     parser.add_argument(
         'source',
-        choices=('jh', 'hse'),
+        choices=('johnhopkins', 'hse'),
         help='Refer to README for list of sources'
     )
     parser.add_argument(
-        '-d',
-        '--days',
+        '-t',
+        '--time',
         default=1,
         type=int,
         help='0: All, N: Today - N days'
@@ -25,8 +25,8 @@ def parse():
         help='Activate production mode'
     )
     parser.add_argument(
-        '-e',
-        '--extract',
+        '-d',
+        '--dataset',
         choices=('cases', 'swabs', 'vaccines'),
         default='cases',
         help='Set dataset to be extracted'

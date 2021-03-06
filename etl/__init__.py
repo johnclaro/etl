@@ -1,5 +1,5 @@
 import etl
-from etl.sources import jh, hse
+from covid.sources.hse import JohnHopkins, HSE
 
 
 def main(event, context):
@@ -7,17 +7,12 @@ def main(event, context):
     etl.settings.PROD = event.get('prod')
 
     source = event.get('source')
-    extract = event.get('extract')
+    extraction = event.get('extraction')
 
-    options = {
-        'jh': {
-            'cases': jh.etl()
-        },
-        'hse': {
-            'swabs': hse.swabs.etl()
-        }
+    sources = {
+        'johnhopkins': JohnHopkins(extraction).etl(),
+        'hse': HSE(extraction).etl()
     }
-
-    status = options[source][extract]
+    status = sources[source]
 
     return {**status, **event}

@@ -1,7 +1,7 @@
 import os
 from distutils.util import strtobool
 
-DAYS = 1
+TIME = 1
 PROD = bool(strtobool(os.environ.get('PROD', 'False')))
 
 if PROD:
