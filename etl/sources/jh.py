@@ -25,8 +25,8 @@ def transform(df):
         'province_state': 'state',
         'recovered': 'recoveries'
     }
-    for bad_column, good_column in columns.items():
-        df.columns = df.columns.str.replace(bad_column, good_column)
+    for old_column, new_column in columns.items():
+        df.columns = df.columns.str.replace(old_column, new_column)
 
     try:
         df = df[df.country == 'Ireland']
@@ -51,7 +51,7 @@ def transform(df):
 
 def load(df):
     url = urljoin(settings.URL, 'covid/upsert')
-    for index, row in df.iterrows():
+    for _, row in df.iterrows():
         data = {
             'date': row.date,
             'country': row.country,

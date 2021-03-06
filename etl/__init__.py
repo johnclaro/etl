@@ -3,7 +3,7 @@ from etl.sources import jh, hspc
 
 
 def main(event, context):
-    etl.settings.TIMESET = event.get('timeset')
+    etl.settings.DAYS = event.get('days')
 
     source = event.get('source')
     if source == 'jh':
