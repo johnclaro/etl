@@ -3,11 +3,12 @@ from urllib.parse import urljoin
 
 import requests
 
-import etl
+from etl import settings
+from etl.sources import Source
 from etl.covid.items import Swab
 
 
-class HSE(etl.datasets.Dataset):
+class HSE(Source):
 
     def __init__(self, dataset):
         self.dataset = dataset
@@ -31,7 +32,7 @@ class HSE(etl.datasets.Dataset):
 
     def load(self, data):
         status = {'successes': 0, 'errors': 0}
-        url = urljoin(etl.settings.URL, 'swabs/upsert')
+        url = urljoin(settings.URL, 'swabs/upsert')
         data = json.dumps(data)
         response = requests.post(url, data=data)
         if response.status_code == 200:

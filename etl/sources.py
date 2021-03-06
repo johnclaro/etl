@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 
-class Dataset:
+class Source(ABC):
 
     @abstractmethod
     def extract(self):

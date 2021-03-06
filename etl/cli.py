@@ -6,9 +6,8 @@ import etl
 def parse():
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        'source',
-        choices=('johnhopkins', 'hse'),
-        help='Refer to README for list of sources'
+        'etl',
+        help='Name of ETL package'
     )
     parser.add_argument(
         '-t',
@@ -23,6 +22,13 @@ def parse():
         dest='prod',
         action='store_true',
         help='Activate production mode'
+    )
+    parser.add_argument(
+        '-s',
+        '--source',
+        choices=('johnhopkins', 'hse'),
+        required=True,
+        help='Refer to README for list of sources'
     )
     parser.add_argument(
         '-d',

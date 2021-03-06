@@ -1,15 +1,17 @@
 import json
 import datetime
+from datetime import timedelta
 from urllib.parse import urljoin
 
 import requests
 import pandas as pd
 
-import etl
+from etl import settings
+from etl.sources import Source
 from etl.covid.items import Case
 
 
-class JohnHopkins(etl.datasets.Dataset):
+class JohnHopkins(Source):
 
     def __init__(self, dataset):
         self.dataset = dataset
@@ -39,10 +41,8 @@ class JohnHopkins(etl.datasets.Dataset):
 
         df = df.drop(columns=['state'])
 
-        if etl.settings.TIME:
-            yesterday = datetime.datetime.now() - datetime.timedelta(
-                days=etl.settings.TIME
-            )
+        if settings.TIME:
+            yesterday = datetime.datetime.now() - timedelta(days=settings.TIME)
             yesterday = yesterday.replace(
                 hour=0,
                 minute=0,
@@ -54,7 +54,7 @@ class JohnHopkins(etl.datasets.Dataset):
         return df
 
     def load(self, data):
-        url = urljoin(etl.settings.URL, f'covid/{self.dataset}/upsert')
+        url = urljoin(settings.URL, f'covid/{self.dataset}/upsert')
         status = {'success': 0, 'error': 0}
 
         for _, row in data.iterrows():
