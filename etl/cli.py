@@ -6,22 +6,20 @@ import etl
 def parse():
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        '-d',
-        '--days',
-        choices=('a', '1',),
-        nargs='?',
-        default='1',
-        help='a - All, 1 - 1 day'
+        'source',
+        choices=('jh', 'hspc'),
+        help='(1) jh: John Hopkins, '
+             '(2) hspc: Health Protection Surveillance Centre'
     )
     parser.add_argument(
-        '-s',
-        '--source',
-        choices=('jh', 'hspc'),
-        required=True,
-        help='jc - John Hopkins, '
-             'hspc - Health Protection Surveillance Centre'
+        '-d',
+        '--days',
+        default=1,
+        type=int,
+        help='0: All, N: Today - N days'
     )
     args = parser.parse_args()
     event = vars(args)
+    print(event)
     response = etl.main(event, None)
     print(response)
