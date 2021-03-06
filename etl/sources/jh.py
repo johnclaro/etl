@@ -36,7 +36,7 @@ def transform(df):
     df = df.drop(columns=['state'])
 
     if settings.DAYS:
-        yesterday = datetime.datetime.now() - timedelta(days=days)
+        yesterday = datetime.datetime.now() - timedelta(days=settings.DAYS)
         yesterday = yesterday.replace(
             hour=0,
             minute=0,
