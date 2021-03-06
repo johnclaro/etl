@@ -2,9 +2,9 @@ import os
 from distutils.util import strtobool
 
 DAYS = 1
-DEBUG = bool(strtobool(os.environ.get('DEBUG', 'True')))
+PROD = bool(strtobool(os.environ.get('PROD', 'False')))
 
-if DEBUG:
+if PROD:
     URL = 'http://localhost:8000'
 else:
     URL = 'https://www.johnclaro.com'

@@ -18,6 +18,14 @@ def parse():
         type=int,
         help='0: All, N: Today - N days'
     )
+    parser.add_argument(
+        '-p',
+        '--prod',
+        dest='prod',
+        action='store_true',
+        help='Activate production mode'
+    )
+    parser.set_defaults(prod=False)
     args = parser.parse_args()
     event = vars(args)
     print(event)
