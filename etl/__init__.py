@@ -12,4 +12,4 @@ def main(event, context):
     elif source == 'hse':
         status = hse.etl()
 
-    return {'status': **status, 'options': **event}
+    return {**status, **event}
