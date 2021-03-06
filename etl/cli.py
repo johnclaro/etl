@@ -28,6 +28,5 @@ def parse():
     parser.set_defaults(prod=False)
     args = parser.parse_args()
     event = vars(args)
-    print(event)
-    response = etl.main(event, None)
-    print(response)
+    status = etl.main(event, None)
+    return {**status, **event}

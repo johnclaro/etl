@@ -8,8 +8,8 @@ def main(event, context):
 
     source = event.get('source')
     if source == 'jh':
-        jh.etl()
+        status = jh.etl()
     elif source == 'hspc':
-        hspc.etl()
+        status = hspc.etl()
 
-    return {'status': 'Completed'}
+    return {**status, **event}

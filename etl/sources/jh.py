@@ -1,3 +1,4 @@
+import json
 import datetime
 from datetime import timedelta
 from urllib.parse import urljoin
@@ -5,7 +6,8 @@ from urllib.parse import urljoin
 import requests
 import pandas as pd
 
-from .. import settings
+from etl import settings
+from etl.models import Case
 
 
 def extract():
@@ -49,19 +51,28 @@ def transform(df):
 
 
 def load(df):
-    url = urljoin(settings.URL, 'covid/upsert')
+    url = urljoin(settings.URL, 'cases/upsert')
+    status = {'success': 0, 'error': 0}
+
     for _, row in df.iterrows():
-        data = {
-            'date': row.date,
-            'country': row.country,
-            'cases': row.cases,
-            'deaths': row.deaths,
-            'recoveries': row.recoveries
-        }
-        requests.post(url, data=data)
+        case = Case(
+            date=row.date,
+            country=row.country,
+            cases=row.cases,
+            deaths=row.deaths,
+            recoveries=row.recoveries
+        )
+        data = json.dumps(case.__dict__)
+        response = requests.post(url, data=data)
+        if response.status_code == 200:
+            status['success'] += 1
+        else:
+            status['error'] += 1
+    return status
 
 
 def etl():
     response = extract()
     data = transform(response)
-    load(data)
+    status = load(data)
+    return status

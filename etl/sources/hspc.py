@@ -1,45 +1,10 @@
 import json
-from datetime import datetime
 from urllib.parse import urljoin
 
 import requests
 
 from etl import settings
-
-
-class HSPC:
-
-    def __init__(
-        self,
-        date,
-        hospitals,
-        non_hospitals,
-        labs,
-        positive_all,
-        positive_rate_all,
-        test_24,
-        test_7,
-        positive_7,
-        positive_rate_7,
-        fid
-    ):
-        self.date = self.clean_date(date)
-        self.hospitals = hospitals
-        self.non_hospitals = non_hospitals
-        self.labs = labs
-        self.positive_all = positive_all
-        self.positive_rate_all = positive_rate_all
-        self.test_24 = test_24
-        self.test_7 = test_7
-        self.positive_all = positive_7
-        self.positive_rate_7 = positive_rate_7
-        self.fid = fid
-
-    def clean_date(self, date):
-        date = date / 1000  # Convert unix timestamp in milliseconds to seconds
-        date = datetime.fromtimestamp(date)
-        date = date.strftime('%Y-%m-%d %H:%M:%S')
-        return date
+from etl.models import Swab
 
 
 def extract():
@@ -54,7 +19,7 @@ def transform(response):
     data = []
     for feature in response['features']:
         attribute = feature['attributes']
-        hspc = HSPC(
+        swab = Swab(
             date=attribute['Date_HPSC'],
             hospitals=attribute['Hospitals'],
             non_hospitals=attribute['NonHospitals'],
@@ -67,19 +32,25 @@ def transform(response):
             positive_rate_7=attribute['PosR7'],
             fid=attribute['FID']
         )
-        data.append(hspc.__dict__)
+        data.append(swab.__dict__)
 
     return data
 
 
 def load(data):
+    status = {'success': 0, 'error': 0}
     url = urljoin(settings.URL, 'swabs/upsert')
     data = json.dumps(data)
     response = requests.post(url, data=data)
-    return data
+    if response.status_code == 200:
+        status['success'] += 1
+    else:
+        status['error'] += 1
+    return status
 
 
 def etl():
     response = extract()
     data = transform(response)
-    load(data)
+    status = load(data)
+    return status
