@@ -35,6 +35,7 @@ def parse():
         '--dataset',
         choices=('cases', 'swabs', 'vaccines'),
         default='cases',
+        required=True,
         help='Set dataset to be extracted'
     )
     parser.set_defaults(prod=False)

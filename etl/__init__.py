@@ -4,16 +4,15 @@ from etl.covid.datasets.johnhopkins import JohnHopkins
 
 
 def main(event, context):
-    etl.settings.DAYS = event.get('days')
+    etl.settings.TIME = event.get('time')
     etl.settings.PROD = event.get('prod')
-
-    source = event.get('source')
-    extraction = event.get('extraction')
+    etl.settings.SOURCE = event.get('source')
+    etl.settings.DATASET = event.get('dataset')
 
     sources = {
-        'johnhopkins': JohnHopkins(extraction).etl(),
-        'hse': HSE(extraction).etl()
+        'johnhopkins': JohnHopkins().etl(),
+        'hse': HSE().etl()
     }
-    status = sources[source]
+    status = sources[etl.settings.SOURCE]
 
     return {**status, **event}

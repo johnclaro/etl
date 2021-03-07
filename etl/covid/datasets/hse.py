@@ -1,40 +1,36 @@
 import json
-from urllib.parse import urljoin
 
 import requests
 
-from etl import settings
 from etl.sources import Source
 from etl.covid.items import Swab
 
 
 class HSE(Source):
 
-    def __init__(self, dataset):
-        self.dataset = dataset
-
-    def extract(self):
+    def __init__(self):
+        Source.__init__(self)
         urls = {
             'cases': 'https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/CovidStatisticsProfileHPSCIrelandOpenData/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json',
             'swabs': 'https://services-eu1.arcgis.com/z6bHNio59iTqqSUY/arcgis/rest/services/LaboratoryLocalTimeSeriesHistoricView/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json',
         }
-        url = urls[self.dataset]
-        response = requests.get(url).json()
+        self.extract_url = urls[self.dataset]
+
+    def extract(self):
+        response = requests.get(self.extract_url).json()
         return response
 
     def transform(self, response):
-        functions = {
-            'cases': self._transform_cases(response),
-            'swabs': self._transform_swabs(response)
-        }
-        data = functions[self.dataset]
+        if self.dataset == 'cases':
+            data = self._transform_cases(response)
+        elif self.dataset == 'swabs':
+            data = self._transform_swabs(response)
         return data
 
     def load(self, data):
         status = {'successes': 0, 'errors': 0}
-        url = urljoin(settings.URL, 'swabs/upsert')
         data = json.dumps(data)
-        response = requests.post(url, data=data)
+        response = requests.post(self.load_url, data=data)
         if response.status_code == 200:
             status['successes'] += 1
         else:

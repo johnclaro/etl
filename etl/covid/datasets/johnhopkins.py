@@ -1,7 +1,6 @@
 import json
 import datetime
 from datetime import timedelta
-from urllib.parse import urljoin
 
 import requests
 import pandas as pd
@@ -13,12 +12,15 @@ from etl.covid.items import Case
 
 class JohnHopkins(Source):
 
-    def __init__(self, dataset):
-        self.dataset = dataset
+    def __init__(self):
+        Source.__init__(self)
+        urls = {
+            'cases': 'https://raw.githubusercontent.com/datasets/covid-19/master/data/time-series-19-covid-combined.csv',
+        }
+        self.extract_url = urls[self.dataset]
 
     def extract(self):
-        url = 'https://raw.githubusercontent.com/datasets/covid-19/master/data/time-series-19-covid-combined.csv'
-        df = pd.read_csv(url)
+        df = pd.read_csv(self.extract_url)
         return df
 
     def transform(self, df):
@@ -41,7 +43,7 @@ class JohnHopkins(Source):
 
         df = df.drop(columns=['state'])
 
-        if settings.TIME:
+        if settings.TIME >= 1:
             yesterday = datetime.datetime.now() - timedelta(days=settings.TIME)
             yesterday = yesterday.replace(
                 hour=0,
@@ -53,11 +55,9 @@ class JohnHopkins(Source):
 
         return df
 
-    def load(self, data):
-        url = urljoin(settings.URL, f'covid/{self.dataset}/upsert')
-        status = {'success': 0, 'error': 0}
-
-        for _, row in data.iterrows():
+    def load(self, df):
+        status = {'successes': 0, 'errors': 0}
+        for _, row in df.iterrows():
             case = Case(
                 date=row.date,
                 country=row.country,
@@ -66,9 +66,9 @@ class JohnHopkins(Source):
                 recoveries=row.recoveries
             )
             data = json.dumps(case.__dict__)
-            response = requests.post(url, data=data)
+            response = requests.post(self.load_url, data=data)
             if response.status_code == 200:
-                status['success'] += 1
+                status['successes'] += 1
             else:
-                status['error'] += 1
+                status['errors'] += 1
         return status
