@@ -7,7 +7,7 @@ import pandas as pd
 
 from etl import settings
 from etl.sources import Source
-from etl.covid.items import Case
+from etl.covid.items import JohnHopkinsCase
 
 
 class JohnHopkins(Source):
@@ -58,7 +58,7 @@ class JohnHopkins(Source):
     def load(self, df):
         status = {'successes': 0, 'errors': 0}
         for _, row in df.iterrows():
-            case = Case(
+            case = JohnHopkinsCase(
                 date=row.date,
                 country=row.country,
                 cases=row.cases,
