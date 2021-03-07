@@ -1,6 +1,6 @@
 import etl
-from etl.covid.datasets.hse import HSE
-from etl.covid.datasets.johnhopkins import JohnHopkins
+from etl.covid.sources.hse import HSE
+from etl.covid.sources.johnhopkins import JohnHopkins
 
 
 def main(event, context):
