@@ -81,6 +81,8 @@ class HSE(Source):
                 fid=attribute['FID'],
             )
             data.append(case.__dict__)
+        
+        print(data)
         return data
 
     def _transform_swabs(self, response):
