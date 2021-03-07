@@ -3,7 +3,7 @@ import json
 import requests
 
 from etl.sources import Source
-from etl.covid.items import HSESwab, HSECase
+from etl.covid.hse.items import Swab, Case
 
 
 class HSE(Source):
@@ -41,9 +41,7 @@ class HSE(Source):
         data = []
         for feature in response['features']:
             attribute = feature['attributes']
-            print(attribute)
-            print('---')
-            case = HSECase(
+            case = Case(
                 date=attribute['Date'],
                 confirmed_covid_cases=attribute['ConfirmedCovidCases'],
                 total_confirmed_covid_cases=attribute['TotalConfirmedCovidCases'],
@@ -81,15 +79,13 @@ class HSE(Source):
                 fid=attribute['FID'],
             )
             data.append(case.__dict__)
-        
-        print(data)
         return data
 
     def _transform_swabs(self, response):
         data = []
         for feature in response['features']:
             attribute = feature['attributes']
-            swab = HSESwab(
+            swab = Swab(
                 date=attribute['Date_HPSC'],
                 hospitals=attribute['Hospitals'],
                 non_hospitals=attribute['NonHospitals'],
@@ -103,5 +99,4 @@ class HSE(Source):
                 fid=attribute['FID']
             )
             data.append(swab.__dict__)
-
         return data

@@ -7,7 +7,7 @@ import pandas as pd
 
 from etl import settings
 from etl.sources import Source
-from etl.covid.items import JohnHopkinsCase
+from etl.covid.johnhopkins.items import Case
 
 
 class JohnHopkins(Source):
