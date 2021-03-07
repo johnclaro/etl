@@ -10,9 +10,10 @@ def main(event, context):
     etl.settings.DATASET = event.get('dataset')
 
     sources = {
-        'johnhopkins': JohnHopkins().etl(),
-        'hse': HSE().etl()
+        'johnhopkins': JohnHopkins(),
+        'hse': HSE()
     }
-    status = sources[etl.settings.SOURCE]
-
-    return {**status, **event}
+    source = sources[etl.settings.SOURCE]
+    status = source.etl()
+    message = {**status, **event}
+    return message

@@ -39,6 +39,8 @@ class HSE(Source):
 
     def _transform_cases(self, response):
         data = []
+        for field in response['fields']:
+            print(field['Name'])
         return data
 
     def _transform_swabs(self, response):
