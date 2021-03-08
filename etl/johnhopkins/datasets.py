@@ -14,7 +14,8 @@ class JohnHopkins(Source):
 
     def __init__(self, dataset):
         datasets = {
-            'cases': 'https://raw.githubusercontent.com/datasets/covid-19/master/data/time-series-19-covid-combined.csv',
+            'cases': 'https://raw.githubusercontent.com/datasets/'
+                     'covid-19/master/data/time-series-19-covid-combined.csv',
         }
         self.extract_url = datasets[dataset]
         self.load_url = urljoin(settings.URL, f'johnhopkins/{dataset}/upsert')

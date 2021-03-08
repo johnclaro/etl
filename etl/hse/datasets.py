@@ -11,8 +11,16 @@ class HSE(Source):
 
     def __init__(self, dataset):
         datasets = {
-            'cases': 'https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/CovidStatisticsProfileHPSCIrelandOpenData/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json',
-            'swabs': 'https://services-eu1.arcgis.com/z6bHNio59iTqqSUY/arcgis/rest/services/LaboratoryLocalTimeSeriesHistoricView/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json',
+            'cases': 'https://services1.arcgis.com/eNO7HHeQ3rUcBllm/'
+                     'arcgis/rest/services/'
+                     'CovidStatisticsProfileHPSCIrelandOpenData/'
+                     'FeatureServer/0/query'
+                     '?where=1%3D1&outFields=*&outSR=4326&f=json',
+            'swabs': 'https://services-eu1.arcgis.com/'
+                     'z6bHNio59iTqqSUY/arcgis/rest/services/'
+                     'LaboratoryLocalTimeSeriesHistoricView/'
+                     'FeatureServer/0/query'
+                     '?where=1%3D1&outFields=*&outSR=4326&f=json',
         }
         self.extract_url = datasets[dataset]
         self.load_url = urljoin(settings.URL, f'hse/{dataset}/upsert')
