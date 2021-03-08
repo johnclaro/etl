@@ -48,8 +48,9 @@ class JohnHopkins(Source):
 
         df = df.drop(columns=['state'])
 
-        if settings.TIME >= 1:
-            date = datetime.datetime.now() - timedelta(days=settings.TIME)
+        time = etl.settings.get('time')
+        if time >= 1:
+            date = datetime.datetime.now() - timedelta(days=time)
             date = date.replace(hour=0, minute=0, second=0, microsecond=0)
             df = df[df.date == date]
 
