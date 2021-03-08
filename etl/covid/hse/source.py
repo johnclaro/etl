@@ -5,7 +5,7 @@ import requests
 
 from etl import settings
 from etl.sources import Source
-from etl.covid.hse.items import Swab, Case
+from .items import Item
 
 
 class HSE(Source):
@@ -17,31 +17,25 @@ class HSE(Source):
             'swabs': 'https://services-eu1.arcgis.com/z6bHNio59iTqqSUY/arcgis/rest/services/LaboratoryLocalTimeSeriesHistoricView/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json',
         }
         self.extract_url = urls[self.dataset]
-        load_url = urljoin(settings.URL, f'covid/hse/{self.dataset}/upsert')
-        self.load_url = load_url
+        self.load_url = urljoin(
+            settings.URL,
+            f'covid/hse/{self.dataset}/upsert'
+        )
 
     def extract(self):
         response = requests.get(self.extract_url).json()
         return response
 
     def transform(self, response):
-        data = []
+        items = []
         for feature in response['features']:
-            attribute = feature['attributes']
-            if self.dataset == 'cases':
-                item = Case(**attribute)
-            elif self.dataset == 'swabs':
-                item = Swab(**attribute)
-            data.append(item.__dict__)
-        return data
+            item = Item(**feature['attributes'])
+            items.append(item.__dict__)
+        return items
 
-    def load(self, data):
+    def load(self, items):
         status = {'successes': 0, 'errors': 0}
-        data = json.dumps(data, indent=4, sort_keys=True)
-        print(data)
-        headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
-        response = requests.post(self.load_url, data=data, headers=headers)
-        print(response.json())
+        response = requests.post(self.load_url, json=items)
         if response.status_code == 200:
             status['successes'] += 1
         else:

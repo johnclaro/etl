@@ -1,20 +1,22 @@
+from datetime import datetime
 
-from etl.covid.items import Item
 
-
-class Swab(Item):
+class Item:
 
     def __init__(self, **kwargs):
-        date = kwargs.pop('Date_HSPC')
-        Item.__init__(self, date)
         for key, value in kwargs.items():
+            key = key.lower()
+            if key in ('date', 'date_hspc', 'statisticsprofiledate'):
+                value = clean_date(value)
             setattr(self, key.lower(), value)
 
 
-class Case(Item):
-
-    def __init__(self, **kwargs):
-        date = kwargs.pop('Date')
-        Item.__init__(self, date)
-        for key, value in kwargs.items():
-            setattr(self, key.lower(), value)
+def clean_date(date):
+    try:
+        date = datetime.fromtimestamp(date)
+    except ValueError:
+        # Converts unix timestamp in milliseconds to seconds
+        date = date / 1000
+        date = datetime.fromtimestamp(date)
+    date = date.strftime('%Y-%m-%d %H:%M:%S')
+    return date
