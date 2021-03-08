@@ -1,6 +1,7 @@
 import json
 import datetime
 from datetime import timedelta
+from urllib.parse import urljoin
 
 import requests
 import pandas as pd
@@ -18,6 +19,8 @@ class JohnHopkins(Source):
             'cases': 'https://raw.githubusercontent.com/datasets/covid-19/master/data/time-series-19-covid-combined.csv',
         }
         self.extract_url = urls[self.dataset]
+        uri = f'covid/johnhopkins/{self.dataset}/upsert'
+        self.load_url = urljoin(settings.URL, uri)
 
     def extract(self):
         df = pd.read_csv(self.extract_url)
@@ -58,7 +61,7 @@ class JohnHopkins(Source):
     def load(self, df):
         status = {'successes': 0, 'errors': 0}
         for _, row in df.iterrows():
-            case = JohnHopkinsCase(
+            case = Case(
                 date=row.date,
                 country=row.country,
                 cases=row.cases,
