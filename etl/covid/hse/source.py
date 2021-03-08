@@ -26,7 +26,7 @@ class HSE(Source):
         response = requests.get(self.extract_url).json()
         return response
 
-    def transform(self, response):
+    def transform(self, response: dict):
         items = []
         for feature in response['features']:
             attributes = feature['attributes']
@@ -34,6 +34,6 @@ class HSE(Source):
             items.append(item.__dict__)
         return items
 
-    def load(self, items):
+    def load(self, items: list):
         response = requests.post(self.load_url, json=items)
         return response

@@ -23,8 +23,7 @@ class Source(ABC):
     def etl(self):
         response = self.extract()
         data = self.transform(response)
-        message = {'items': len(data), 'success': False}
+        task = {'items': len(data), 'message': None}
         response = self.load(data)
-        if response.status_code == 200:
-            message['success'] = True
-        return message
+        task['message'] = response.json()
+        return task
