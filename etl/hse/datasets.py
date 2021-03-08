@@ -2,7 +2,7 @@ from urllib.parse import urljoin
 
 import requests
 
-from etl import settings
+import etl
 from etl.sources import Source
 from .items import Item
 
@@ -23,7 +23,10 @@ class HSE(Source):
                      '?where=1%3D1&outFields=*&outSR=4326&f=json',
         }
         self.extract_url = datasets[dataset]
-        self.load_url = urljoin(settings.URL, f'hse/{dataset}/upsert')
+        self.load_url = urljoin(
+            etl.settings['load_base'],
+            f'hse/{dataset}/upsert'
+        )
 
     def extract(self):
         response = requests.get(self.extract_url).json()

@@ -2,7 +2,6 @@ import unittest
 import pandas as pd
 import numpy as np
 
-from etl import settings
 from etl.johnhopkins.datasets import JohnHopkins
 
 

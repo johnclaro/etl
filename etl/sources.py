@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from json.decoder import JSONDecodeError
 
 
 class Source(ABC):
@@ -20,5 +21,8 @@ class Source(ABC):
         data = self.transform(response)
         task = {'items': len(data), 'message': None}
         response = self.load(data)
-        task['message'] = response.json()
+        try:
+            task['message'] = response.json()
+        except JSONDecodeError:
+            task['message'] = 'Error response'
         return task
