@@ -8,18 +8,17 @@ import pandas as pd
 
 from etl import settings
 from etl.sources import Source
-from etl.covid.johnhopkins.items import Case
+from .items import Case
 
 
 class JohnHopkins(Source):
 
-    def __init__(self):
-        Source.__init__(self)
-        urls = {
+    def __init__(self, dataset):
+        datasets = {
             'cases': 'https://raw.githubusercontent.com/datasets/covid-19/master/data/time-series-19-covid-combined.csv',
         }
-        self.extract_url = urls[self.dataset]
-        uri = f'covid/johnhopkins/{self.dataset}/upsert'
+        self.extract_url = datasets[dataset]
+        uri = f'covid/johnhopkins/{dataset}/upsert'
         self.load_url = urljoin(settings.URL, uri)
 
     def extract(self):

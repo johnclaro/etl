@@ -1,12 +1,7 @@
 from abc import ABC, abstractmethod
 
-from etl import settings
-
 
 class Source(ABC):
-
-    def __init__(self):
-        self.dataset = settings.DATASET
 
     @abstractmethod
     def extract(self):
