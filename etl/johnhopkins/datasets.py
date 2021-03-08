@@ -1,4 +1,3 @@
-import json
 import datetime
 from datetime import timedelta
 from urllib.parse import urljoin
