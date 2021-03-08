@@ -29,7 +29,8 @@ class HSE(Source):
     def transform(self, response):
         items = []
         for feature in response['features']:
-            item = Item(**feature['attributes'])
+            attributes = feature['attributes']
+            item = Item(**attributes)
             items.append(item.__dict__)
         return items
 
