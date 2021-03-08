@@ -1,14 +1,23 @@
+import json
+
 import etl
-from etl.sources import jh, hspc
+from etl.hse.datasets import HSE
+from etl.johnhopkins.datasets import JohnHopkins
 
 
-def main(event, context):
-    etl.settings.TIMESET = event.get('timeset')
+def run(flags, context):
+    etl.settings.TIME = flags.get('time')
+    etl.settings.PROD = flags.get('prod')
 
-    source = event.get('source')
-    if source == 'jh':
-        jh.etl()
-    elif source == 'hspc':
-        hspc.etl()
+    source = flags.get('source')
+    dataset = flags.get('dataset')
 
-    return {'status': 'Completed'}
+    sources = {
+        'johnhopkins': JohnHopkins(dataset),
+        'hse': HSE(dataset)
+    }
+    source = sources[source]
+    task = source.etl()
+    output = {'task': task, 'flags': flags}
+    output = json.dumps(output, indent=4)
+    return output

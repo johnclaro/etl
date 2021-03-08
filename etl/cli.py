@@ -6,22 +6,33 @@ import etl
 def parse():
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        '-d',
-        '--days',
-        choices=('a', '1',),
-        nargs='?',
-        default='1',
-        help='(a) - All, (1) - 1 day'
+        'source',
+        help='Name of source'
     )
     parser.add_argument(
-        '-s',
-        '--source',
-        choices=('jh', 'hspc'),
-        required=True,
-        help='(jh) - John Hopkins, (hspc) '
-             'Health Protection Surveillance Centre'
+        '-t',
+        '--time',
+        default=1,
+        type=int,
+        help='0: All, N: Today - N days'
     )
+    parser.add_argument(
+        '-p',
+        '--prod',
+        dest='prod',
+        action='store_true',
+        help='Activate production mode'
+    )
+    parser.add_argument(
+        '-d',
+        '--dataset',
+        choices=('cases', 'swabs', 'vaccines'),
+        default='cases',
+        required=True,
+        help='Set dataset to be extracted'
+    )
+    parser.set_defaults(prod=False)
     args = parser.parse_args()
-    event = vars(args)
-    response = etl.main(event, None)
-    print(response)
+    flags = vars(args)
+    output = etl.run(flags, None)
+    return output
