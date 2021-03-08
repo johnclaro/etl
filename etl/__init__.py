@@ -4,11 +4,22 @@ import etl
 from etl.hse.datasets import HSE
 from etl.johnhopkins.datasets import JohnHopkins
 
+settings = { 
+    'time': 1,
+    'prod': False,
+    'load_base': 'http://localhost:8000',
+}
+
+def apply_settings(flags):
+    for key, value in flags.items():
+        settings[key] = value
+
+    if flags.get('prod'):
+        settings['load_base'] = 'https://johnclaro.com'
+
 
 def run(flags, context):
-    etl.settings.TIME = flags.get('time')
-    etl.settings.PROD = flags.get('prod')
-
+    apply_settings(flags)
     source = flags.get('source')
     dataset = flags.get('dataset')
 
@@ -18,6 +29,7 @@ def run(flags, context):
     }
     source = sources[source]
     task = source.etl()
-    output = {'task': task, 'flags': flags}
+
+    output = {'task': task, 'settings': settings}
     output = json.dumps(output, indent=4)
     return output

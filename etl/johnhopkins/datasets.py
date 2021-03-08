@@ -5,7 +5,7 @@ from urllib.parse import urljoin
 import requests
 import pandas as pd
 
-from etl import settings
+import etl
 from etl.sources import Source
 from .items import Case
 
@@ -18,7 +18,10 @@ class JohnHopkins(Source):
                      'covid-19/master/data/time-series-19-covid-combined.csv',
         }
         self.extract_url = datasets[dataset]
-        self.load_url = urljoin(settings.URL, f'johnhopkins/{dataset}/upsert')
+        self.load_url = urljoin(
+            etl.settings['load_base'],
+            f'johnhopkins/{dataset}/upsert'
+        )
 
     def extract(self):
         df = pd.read_csv(self.extract_url)
