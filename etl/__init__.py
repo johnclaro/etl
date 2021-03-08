@@ -15,7 +15,7 @@ def apply_settings(flags):
         settings[key] = value
 
     if flags.get('prod'):
-        settings['load_base'] = 'https://johnclaro.com'
+        settings['load_base'] = 'https://www.johnclaro.com'
 
 
 def run(flags, context):
