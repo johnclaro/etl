@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 
 from etl import settings
-from etl.covid.johnhopkins.source import JohnHopkins
+from etl.johnhopkins.datasets import JohnHopkins
 
 
 class TestJH(unittest.TestCase):
@@ -18,8 +18,7 @@ class TestJH(unittest.TestCase):
             'Deaths': [1, 2]
         }
         self.df = pd.DataFrame(data=data)
-        settings.DATASET = 'cases'
-        self.johnhopkins = JohnHopkins()
+        self.johnhopkins = JohnHopkins('cases')
 
     def test_transform(self):
         items = self.johnhopkins.transform(self.df)
