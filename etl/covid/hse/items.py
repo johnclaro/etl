@@ -18,5 +18,6 @@ def clean_date(date):
         # Converts unix timestamp in milliseconds to seconds
         date = date / 1000
         date = datetime.fromtimestamp(date)
-    date = date.strftime('%Y-%m-%d %H:%M:%S')
+
+    date = date.strftime('%Y-%m-%d')
     return date

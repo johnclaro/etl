@@ -14,5 +14,6 @@ class Case:
 def clean_date(date):
     if isinstance(date, pandas._libs.tslibs.timestamps.Timestamp):
         date = date.date()
-    date = date.strftime('%Y-%m-%d %H:%M:%S')
+
+    date = date.strftime('%Y-%m-%d')
     return date
