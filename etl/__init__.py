@@ -1,11 +1,11 @@
 import json
 
 import etl
-from etl.hse import HSE
-from etl.johnhopkins import JohnHopkins
+from etl.hse.datasets import HSE
+from etl.johnhopkins.datasets import JohnHopkins
 
 
-def main(flags, context):
+def run(flags, context):
     etl.settings.TIME = flags.get('time')
     etl.settings.PROD = flags.get('prod')
 

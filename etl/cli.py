@@ -35,5 +35,5 @@ def parse():
     parser.set_defaults(prod=False)
     args = parser.parse_args()
     flags = vars(args)
-    output = etl.main(flags, None)
+    output = etl.run(flags, None)
     return output
