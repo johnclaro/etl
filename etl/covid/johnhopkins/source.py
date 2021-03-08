@@ -70,5 +70,5 @@ class JohnHopkins(Source):
         return data
 
     def load(self, items):
-        response = requests.post(self.load_url, json=data)
+        response = requests.post(self.load_url, json=items)
         return response
