@@ -35,10 +35,5 @@ class HSE(Source):
         return items
 
     def load(self, items):
-        status = {'successes': 0, 'errors': 0}
         response = requests.post(self.load_url, json=items)
-        if response.status_code == 200:
-            status['successes'] += 1
-        else:
-            status['errors'] += 1
-        return status
+        return response

@@ -27,6 +27,7 @@ class JohnHopkins(Source):
         return df
 
     def transform(self, df):
+        data = []
         df.columns = df.columns.str.strip().str.lower()
         df['date'] = pd.to_datetime(df['date'])
         columns = {
@@ -56,10 +57,6 @@ class JohnHopkins(Source):
             )
             df = df[df.date == yesterday]
 
-        return df
-
-    def load(self, df):
-        status = {'successes': 0, 'errors': 0}
         for _, row in df.iterrows():
             case = Case(
                 date=row.date,
@@ -68,10 +65,10 @@ class JohnHopkins(Source):
                 deaths=row.deaths,
                 recoveries=row.recoveries
             )
-            data = json.dumps(case.__dict__)
-            response = requests.post(self.load_url, data=data)
-            if response.status_code == 200:
-                status['successes'] += 1
-            else:
-                status['errors'] += 1
-        return status
+            data.append(case.__dict__)
+
+        return data
+
+    def load(self, items):
+        response = requests.post(self.load_url, json=data)
+        return response

@@ -1,3 +1,4 @@
+import json
 import argparse
 
 import etl
@@ -40,6 +41,6 @@ def parse():
     )
     parser.set_defaults(prod=False)
     args = parser.parse_args()
-    event = vars(args)
-    status = etl.main(event, None)
-    return {**status, **event}
+    flags = vars(args)
+    output = etl.main(flags, None)
+    return output
