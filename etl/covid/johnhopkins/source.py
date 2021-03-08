@@ -48,14 +48,9 @@ class JohnHopkins(Source):
         df = df.drop(columns=['state'])
 
         if settings.TIME >= 1:
-            yesterday = datetime.datetime.now() - timedelta(days=settings.TIME)
-            yesterday = yesterday.replace(
-                hour=0,
-                minute=0,
-                second=0,
-                microsecond=0
-            )
-            df = df[df.date == yesterday]
+            date = datetime.datetime.now() - timedelta(days=settings.TIME)
+            date = date.replace(hour=0, minute=0, second=0, microsecond=0)
+            df = df[df.date == date]
 
         for _, row in df.iterrows():
             case = Case(
