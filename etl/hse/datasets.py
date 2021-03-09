@@ -21,6 +21,10 @@ class HSE(Source):
                      'LaboratoryLocalTimeSeriesHistoricView/'
                      'FeatureServer/0/query'
                      '?where=1%3D1&outFields=*&outSR=4326&f=json',
+            'counties': 'https://services1.arcgis.com/eNO7HHeQ3rUcBllm/' \
+                        'arcgis/rest/services/Covid19CountyStatisticsHPSC' \
+                        'IrelandOpenData/FeatureServer/0/query?where=' \
+                        '1%3D1&outFields=*&outSR=4326&f=json'
         }
         self.extract_url = datasets[dataset]
         self.load_url = urljoin(

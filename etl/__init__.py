@@ -23,12 +23,14 @@ def run(flags, context):
     source = flags.get('source')
     dataset = flags.get('dataset')
 
-    sources = {
-        'johnhopkins': JohnHopkins(dataset),
-        'hse': HSE(dataset)
-    }
-    source = sources[source]
-    task = source.etl()
+    if source == 'johnhopkins':
+        source_object = JohnHopkins(dataset)
+    elif source == 'hse':
+        source_object = HSE(dataset)
+    else:
+        exit('That source does not exist')
+
+    task = source_object.etl()
 
     output = {'task': task, 'settings': settings}
     output = json.dumps(output, indent=4)

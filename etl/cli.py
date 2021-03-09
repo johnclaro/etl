@@ -26,8 +26,6 @@ def parse():
     parser.add_argument(
         '-d',
         '--dataset',
-        choices=('cases', 'swabs', 'vaccines'),
-        default='cases',
         required=True,
         help='Set dataset to be extracted'
     )
