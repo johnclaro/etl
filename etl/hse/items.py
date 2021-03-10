@@ -6,7 +6,7 @@ class Item:
     def __init__(self, **kwargs):
         dates = (
             'date',
-            'date_hspc',
+            'date_hpsc',
             'statisticsprofiledate',
             'timestampdate',
         )

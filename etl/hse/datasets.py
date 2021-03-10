@@ -16,15 +16,15 @@ class HSE(Source):
                      'CovidStatisticsProfileHPSCIrelandOpenData/'
                      'FeatureServer/0/query'
                      '?where=1%3D1&outFields=*&outSR=4326&f=json',
+            'counties': 'https://services1.arcgis.com/eNO7HHeQ3rUcBllm/' \
+                        'arcgis/rest/services/Covid19CountyStatisticsHPSC' \
+                        'IrelandOpenData/FeatureServer/0/query?where=' \
+                        '1%3D1&outFields=*&outSR=4326&f=json',
             'swabs': 'https://services-eu1.arcgis.com/'
                      'z6bHNio59iTqqSUY/arcgis/rest/services/'
                      'LaboratoryLocalTimeSeriesHistoricView/'
                      'FeatureServer/0/query'
                      '?where=1%3D1&outFields=*&outSR=4326&f=json',
-            'counties': 'https://services1.arcgis.com/eNO7HHeQ3rUcBllm/' \
-                        'arcgis/rest/services/Covid19CountyStatisticsHPSC' \
-                        'IrelandOpenData/FeatureServer/0/query?where=' \
-                        '1%3D1&outFields=*&outSR=4326&f=json'
         }
         self.extract_url = datasets[dataset]
         self.load_url = urljoin(
@@ -38,6 +38,10 @@ class HSE(Source):
 
     def transform(self, response: dict):
         items = []
+
+        # from etl.helpers import hse_convert_fields_for_django
+        # hse_convert_fields_for_django(response)
+
         for feature in response['features']:
             attributes = feature['attributes']
             item = Item(**attributes)
