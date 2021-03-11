@@ -29,7 +29,7 @@ class HSE(Source):
         self.extract_url = datasets[dataset]
         self.load_url = urljoin(
             etl.settings['load_base'],
-            f'hse/{dataset}/upsert'
+            f'covid/hse/{dataset}/upsert'
         )
 
     def extract(self):

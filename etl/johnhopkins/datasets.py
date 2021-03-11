@@ -20,7 +20,7 @@ class JohnHopkins(Source):
         self.extract_url = datasets[dataset]
         self.load_url = urljoin(
             etl.settings['load_base'],
-            f'johnhopkins/{dataset}/upsert'
+            f'covid/johnhopkins/{dataset}/upsert'
         )
 
     def extract(self):
