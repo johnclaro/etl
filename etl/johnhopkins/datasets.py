@@ -6,6 +6,7 @@ import requests
 import pandas as pd
 
 import etl
+from etl import auth
 from etl.sources import Source
 from .items import Case
 
@@ -20,7 +21,7 @@ class JohnHopkins(Source):
         self.extract_url = datasets[dataset]
         self.load_url = urljoin(
             etl.settings['load_base'],
-            f'johnhopkins/{dataset}/upsert'
+            f'covid/johnhopkins/{dataset}/upsert'
         )
 
     def extract(self):
@@ -67,5 +68,7 @@ class JohnHopkins(Source):
         return data
 
     def load(self, items):
-        response = requests.post(self.load_url, json=items)
+        access = auth.login()
+        headers = {'Authorization': f'Bearer {access}'}
+        response = requests.post(self.load_url, json=items, headers=headers)
         return response

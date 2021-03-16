@@ -19,10 +19,9 @@ class Source(ABC):
     def etl(self):
         response = self.extract()
         data = self.transform(response)
-        task = {'items': len(data), 'message': None}
         response = self.load(data)
-        try:
-            task['message'] = response.json()
-        except JSONDecodeError:
-            task['message'] = 'Error response'
+        task = {
+            'items': len(data),
+            'status_code': response.status_code
+        }
         return task
