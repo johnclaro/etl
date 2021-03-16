@@ -3,6 +3,7 @@ from urllib.parse import urljoin
 import requests
 
 import etl
+from etl import auth
 from etl.sources import Source
 from .items import Item
 
@@ -49,5 +50,7 @@ class HSE(Source):
         return items
 
     def load(self, items: list):
-        response = requests.post(self.load_url, json=items)
+        access = auth.login()
+        headers = {'Authorization': f'Bearer {access}'}
+        response = requests.post(self.load_url, json=items, headers=headers)
         return response

@@ -17,7 +17,6 @@ def parse():
         help='0: All, N: Today - N days'
     )
     parser.add_argument(
-        '-p',
         '--prod',
         dest='prod',
         action='store_true',
@@ -28,6 +27,16 @@ def parse():
         '--dataset',
         required=True,
         help='Set dataset to be extracted'
+    )
+    parser.add_argument(
+        '-u',
+        '--username',
+        help='Username for load base'
+    )
+    parser.add_argument(
+        '-p',
+        '--password',
+        help='Password for load base'
     )
     parser.set_defaults(prod=False)
     args = parser.parse_args()

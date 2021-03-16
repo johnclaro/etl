@@ -20,5 +20,8 @@ class Source(ABC):
         response = self.extract()
         data = self.transform(response)
         response = self.load(data)
-        task = {'items': len(data), 'status': response.status_code}
+        task = {
+            'items': len(data),
+            'status_code': response.status_code
+        }
         return task
