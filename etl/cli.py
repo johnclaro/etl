@@ -17,10 +17,10 @@ def parse():
         help='0: All, N: Today - N days'
     )
     parser.add_argument(
-        '--prod',
-        dest='prod',
+        '--debug',
+        dest='debug',
         action='store_true',
-        help='Activate production mode'
+        help='Activate debug mode'
     )
     parser.add_argument(
         '-d',
@@ -38,7 +38,7 @@ def parse():
         '--password',
         help='Password for load base'
     )
-    parser.set_defaults(prod=False)
+    parser.set_defaults(debug=False)
     args = parser.parse_args()
     flags = vars(args)
     output = etl.run(flags, None)

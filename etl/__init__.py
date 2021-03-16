@@ -6,7 +6,6 @@ from etl.johnhopkins.datasets import JohnHopkins
 
 settings = { 
     'time': 1,
-    'prod': False,
     'load_base': 'http://localhost:8000',
 }
 
@@ -14,7 +13,7 @@ def apply_settings(flags):
     for key, value in flags.items():
         settings[key] = value
 
-    if flags.get('prod'):
+    if not flags.get('debug'):
         settings['load_base'] = 'https://www.johnclaro.com'
 
 
