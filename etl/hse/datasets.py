@@ -57,7 +57,7 @@ class HSE(Source):
                     prev_labs = prev_attrs.get('TotalLabs')
                     pos1 -= prev_pos
                     prate = (pos1 / (total_labs - prev_labs)) * 100
-                    prate = round(prate, 2)
+                    prate = round(prate, 1)
                 attributes['pos1'] = pos1
                 attributes['posr1'] = prate
 
