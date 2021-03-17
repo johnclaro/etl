@@ -115,7 +115,7 @@ class TestJH(unittest.TestCase):
                 'posr7': 3.8,
                 'fid': 364,
                 'pos1': 379,  # 234622 - 234243
-                'posr1': 3.33,  # (379 / (3757468 - 3746076)) * 100 = 3.326
+                'posr1': 3.3,  # (379 / (3757468 - 3746076)) * 100 = 3.326
             }
         ]
         for index, expected_item in enumerate(expected_items):
