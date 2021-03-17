@@ -42,12 +42,13 @@ class TestJH(unittest.TestCase):
                 'pos7': 3733,
                 'posr7': 3.8,
                 'fid': 364,
-                'pos1': 234622
+                'pos1': 234622,
+                'posr1': 6.2
             }
         ]
-        for index, item in enumerate(items):
-            for key, value in item.items():
-                self.assertEqual(expected_items[index][key], value)
+        for index, expected_item in enumerate(expected_items):
+            for key, value in expected_item.items():
+                self.assertEqual(items[index][key], value)
 
     def test_transform_multiple_records(self):
         response = {
@@ -114,7 +115,7 @@ class TestJH(unittest.TestCase):
                 'posr7': 3.8,
                 'fid': 364,
                 'pos1': 379,  # 234622 - 234243
-                'posr1': 3.32,  # (379 / (3757468 - 3746076)) * 100 = 3.32
+                'posr1': 3.33,  # (379 / (3757468 - 3746076)) * 100 = 3.326
             }
         ]
         for index, expected_item in enumerate(expected_items):
