@@ -1,6 +1,7 @@
 import json
 
 from etl.hse.datasets import HSE
+from etl.johnhopkins.datasets import JohnHopkins
 
 settings = {
     'time': 1,
@@ -22,7 +23,8 @@ def run(flags, context):
     output = {'results': [], 'settings': settings}
 
     sources = {
-        'hse': HSE
+        'hse': HSE,
+        'johnhopkins': JohnHopkins
     }
 
     try:
