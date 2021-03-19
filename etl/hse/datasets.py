@@ -10,44 +10,25 @@ from .items import Item
 
 class HSE(Source):
 
-    def __init__(self, dataset):
-        datasets = {
-            'cases': 'https://services1.arcgis.com/eNO7HHeQ3rUcBllm/'
-                     'arcgis/rest/services/'
-                     'CovidStatisticsProfileHPSCIrelandOpenData/'
-                     'FeatureServer/0/query'
-                     '?where=1%3D1&outFields=*&outSR=4326&f=json',
-            'counties': 'https://services1.arcgis.com/eNO7HHeQ3rUcBllm/'
-                        'arcgis/rest/services/Covid19CountyStatisticsHPSC'
-                        'IrelandOpenData/FeatureServer/0/query?where='
-                        '1%3D1&outFields=*&outSR=4326&f=json',
-            'swabs': 'https://services-eu1.arcgis.com/'
-                     'z6bHNio59iTqqSUY/arcgis/rest/services/'
-                     'LaboratoryLocalTimeSeriesHistoricView/'
-                     'FeatureServer/0/query'
-                     '?where=1%3D1&outFields=*&outSR=4326&f=json',
-        }
-        self.dataset = dataset
-        self.extract_url = datasets[dataset]
-        self.load_url = urljoin(
-            etl.settings['load_base'],
-            f'covid/hse/{dataset}/upsert'
+    def __init__(self):
+        self.extract_urls = (
+            'https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/CovidStatisticsProfileHPSCIrelandOpenData/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json',
+            'https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/Covid19CountyStatisticsHPSCIrelandOpenData/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json',
+            'https://services-eu1.arcgis.com/z6bHNio59iTqqSUY/arcgis/rest/services/LaboratoryLocalTimeSeriesHistoricView/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json',
         )
 
     def extract(self):
-        response = requests.get(self.extract_url).json()
-        return response
+        for url in self.extract_urls:
+            response = requests.get(url).json()
+            yield response
 
     def transform(self, response: dict):
         items = []
 
-        # from etl.helpers import hse_convert_fields_for_django
-        # hse_convert_fields_for_django(response)
-
         for index, feature in enumerate(response['features']):
             attributes = feature['attributes']
 
-            if self.dataset == 'swabs':
+            if 'Date_HPSC' in attributes.keys():
                 pos1 = attributes.get('Positive')
                 prate = attributes.get('PRate')
                 total_labs = attributes.get('TotalLabs')
@@ -68,5 +49,6 @@ class HSE(Source):
     def load(self, items: list):
         access = auth.login()
         headers = {'Authorization': f'Bearer {access}'}
-        response = requests.post(self.load_url, json=items, headers=headers)
+        url = urljoin(etl.settings['load_base'], 'covid/hse/upsert')
+        response = requests.post(url, json=items, headers=headers)
         return response

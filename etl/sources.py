@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from json.decoder import JSONDecodeError
 
 
 class Source(ABC):
@@ -13,15 +12,16 @@ class Source(ABC):
         pass
 
     @abstractmethod
-    def load(self, data):
+    def load(self, items):
         pass
 
     def etl(self):
-        response = self.extract()
-        data = self.transform(response)
-        response = self.load(data)
-        task = {
-            'items': len(data),
-            'status_code': response.status_code
-        }
-        return task
+        extractions = self.extract()
+        for extraction in extractions:
+            items = self.transform(extraction)
+            loaded = self.load(items)
+            result = {
+                'items': len(items),
+                'status_code': loaded.status_code
+            }
+            yield result
