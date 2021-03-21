@@ -13,23 +13,18 @@ from .items import Case
 
 class JohnHopkins(Source):
 
-    def __init__(self, dataset):
-        datasets = {
-            'cases': 'https://raw.githubusercontent.com/datasets/'
-                     'covid-19/master/data/time-series-19-covid-combined.csv',
-        }
-        self.extract_url = datasets[dataset]
-        self.load_url = urljoin(
-            etl.settings['load_base'],
-            f'covid/johnhopkins/{dataset}/upsert'
+    def __init__(self):
+        self.extract_urls = (
+            'https://raw.githubusercontent.com/datasets/covid-19/master/data/time-series-19-covid-combined.csv',
         )
 
     def extract(self):
-        df = pd.read_csv(self.extract_url)
-        return df
+        for url in self.extract_urls:
+            df = pd.read_csv(url)
+            yield df
 
-    def transform(self, df):
-        data = []
+    def transform(self, df: pd):
+        items = []
         df.columns = df.columns.str.strip().str.lower()
         df['date'] = pd.to_datetime(df['date'])
         columns = {
@@ -56,19 +51,20 @@ class JohnHopkins(Source):
             df = df[df.date == date]
 
         for _, row in df.iterrows():
-            case = Case(
+            item = Case(
                 date=row.date,
                 country=row.country,
                 cases=row.cases,
                 deaths=row.deaths,
                 recoveries=row.recoveries
             )
-            data.append(case.__dict__)
+            items.append(item.__dict__)
 
-        return data
+        return items
 
     def load(self, items):
         access = auth.login()
         headers = {'Authorization': f'Bearer {access}'}
-        response = requests.post(self.load_url, json=items, headers=headers)
+        url = urljoin(etl.settings['load_base'], 'covid/johnhopkins/upsert')
+        response = requests.post(url, json=items, headers=headers)
         return response

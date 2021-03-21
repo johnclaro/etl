@@ -1,13 +1,13 @@
 import json
 
-import etl
 from etl.hse.datasets import HSE
 from etl.johnhopkins.datasets import JohnHopkins
 
-settings = { 
+settings = {
     'time': 1,
     'load_base': 'http://localhost:8000',
 }
+
 
 def apply_settings(flags):
     for key, value in flags.items():
@@ -20,17 +20,21 @@ def apply_settings(flags):
 def run(flags, context):
     apply_settings(flags)
     source = flags.get('source')
-    dataset = flags.get('dataset')
+    output = {'results': [], 'settings': settings}
 
-    if source == 'johnhopkins':
-        source_object = JohnHopkins(dataset)
-    elif source == 'hse':
-        source_object = HSE(dataset)
-    else:
+    sources = {
+        'hse': HSE,
+        'johnhopkins': JohnHopkins
+    }
+
+    try:
+        source_object = sources[source]()
+    except KeyError:
         exit('That source does not exist')
 
-    task = source_object.etl()
+    results = source_object.etl()
+    for result in results:
+        output['results'].append(result)
 
-    output = {'task': task, 'settings': settings}
     output = json.dumps(output, indent=4)
     return output

@@ -23,12 +23,6 @@ def parse():
         help='Activate debug mode'
     )
     parser.add_argument(
-        '-d',
-        '--dataset',
-        required=True,
-        help='Set dataset to be extracted'
-    )
-    parser.add_argument(
         '-u',
         '--username',
         help='Username for load base'
