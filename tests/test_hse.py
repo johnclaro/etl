@@ -6,7 +6,7 @@ from etl.hse.datasets import HSE
 class TestJH(unittest.TestCase):
 
     def setUp(self):
-        self.swabs = HSE('swabs')
+        self.swabs = HSE()
 
     def test_transform_only_one_record(self):
         response = {
