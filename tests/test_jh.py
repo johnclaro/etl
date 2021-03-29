@@ -17,7 +17,7 @@ class TestJH(unittest.TestCase):
             'Deaths': [1, 2]
         }
         self.df = pd.DataFrame(data=data)
-        self.johnhopkins = JohnHopkins('cases')
+        self.johnhopkins = JohnHopkins()
 
     def test_transform(self):
         items = self.johnhopkins.transform(self.df)
