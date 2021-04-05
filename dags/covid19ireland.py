@@ -6,7 +6,7 @@ from airflow.utils.dates import days_ago
 
 
 default_args = {
-    'owner': 'airflow',
+    'owner': 'john',
     'depends_on_past': False,
     'start_date': days_ago(0, 0, 0, 0),
     'email': ['jkrclaro@gmail.com'],
@@ -17,7 +17,7 @@ default_args = {
 }
 
 dag = DAG(
-    'covid19ireland_dag',
+    'covid19ireland',
     default_args=default_args,
     description="Ireland's COVID-19 Data Hub",
     schedule_interval=timedelta(minutes=1),
