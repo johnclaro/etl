@@ -27,6 +27,16 @@ Run tests
 python setup.py test
 ```
 
+## DAGs
+
+Update `airflow/airflow.cfg`
+```
+dags_folder = ~/etl
+
+load_examples = False
+load_default_connections = False
+```
+
 ## Layers
 
 ETL requires `requests` and `pandas` dependencies for AWS Lambda
