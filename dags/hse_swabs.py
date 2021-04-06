@@ -1,9 +1,9 @@
-import os
 from datetime import datetime, timedelta
 from urllib.parse import urljoin
 
 from airflow.decorators import dag, task
 from airflow.utils.dates import days_ago
+from airflow.models import Variable
 
 import requests
 
@@ -81,10 +81,10 @@ def hse_swabs():
     @task()
     def load(items: dict):
         credentials = {
-            'username': os.getenv('BACKEND_USERNAME', 'guestusername'),
-            'password': os.getenv('BACKEND_PASSWORD', 'guestpassword'),
+            'username': Variable.get('BACKEND_USERNAME', default_var='guestusername'),
+            'password': Variable.get('BACKEND_PASSWORD', default_var='guestpassword'),
         }
-        base = os.getenv('BACKEND_BASE', 'http://localhost:8000')
+        base = Variable.get('BACKEND_BASE', default_var='http://localhost:8000')
         auth_url = urljoin(base, 'accounts/login')
         load_url = urljoin(base, 'hse/swabs/upsert')
         response = requests.post(auth_url, json=credentials)
