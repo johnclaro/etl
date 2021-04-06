@@ -42,7 +42,7 @@ args = {
     },
     'schedule_interval': timedelta(minutes=1),
     'start_date': days_ago(0, 0, 0, 0),
-    'tags': ['backend'],
+    'tags': ['hse'],
 }
 
 
@@ -72,8 +72,7 @@ def hse_cases():
         }
         base = os.getenv('BACKEND_BASE', 'http://localhost:8000')
         auth_url = urljoin(base, 'accounts/login')
-        load_url = urljoin(base, 'covid/hse/cases/upsert')
-
+        load_url = urljoin(base, 'hse/cases/upsert')
         response = requests.post(auth_url, json=credentials)
         tokens = response.json()
         access = tokens.get('access')
