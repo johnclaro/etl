@@ -79,7 +79,7 @@ def hse_counties():
         if response.status_code != 200:
             raise ValueError('Status code was not 200')
 
-        access = response.json().tokens.get('access')
+        access = response.json().get('access')
         headers = {'Authorization': f'Bearer {access}'}
         response = requests.post(load_url, json=items, headers=headers)
 
