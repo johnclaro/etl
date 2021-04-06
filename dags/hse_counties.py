@@ -40,7 +40,7 @@ args = {
     'default_args': {
         'owner': 'john',
     },
-    'schedule_interval': timedelta(minutes=1),
+    'schedule_interval': timedelta(days=1),
     'start_date': days_ago(0, 0, 0, 0),
     'tags': ['hse'],
 }
