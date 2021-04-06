@@ -7,6 +7,8 @@ ETL for Covid data
 
 ETL uses Python 3.7.0.
 ```sh-session
+# Use pip 20.2.4 to ensure Apache Airflow installation has no errors
+pip install --upgrade pip==20.2.4
 pip install -e .
 ```
 
@@ -23,6 +25,16 @@ etl -h
 Run tests
 ```sh-session
 python setup.py test
+```
+
+## DAGs
+
+Update `airflow/airflow.cfg`
+```
+dags_folder = ~/etl
+
+load_examples = False
+load_default_connections = False
 ```
 
 ## Layers
