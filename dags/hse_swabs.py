@@ -88,10 +88,15 @@ def hse_swabs():
         auth_url = urljoin(base, 'accounts/login')
         load_url = urljoin(base, 'hse/swabs/upsert')
         response = requests.post(auth_url, json=credentials)
-        tokens = response.json()
-        access = tokens.get('access')
+        if response.status_code != 200:
+            raise Exception('Status code was not 200')
+
+        access = response.json().tokens.get('access')
         headers = {'Authorization': f'Bearer {access}'}
         response = requests.post(load_url, json=items, headers=headers)
+
+        if response.status_code != 200:
+            raise Exception('Status code was not 200')
 
     response = extract()
     items = transform(response)
