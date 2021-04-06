@@ -51,7 +51,9 @@ def hse_counties():
 
     @task()
     def extract() -> dict:
-        url = 'https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/Covid19CountyStatisticsHPSCIrelandOpenData/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json'
+        url = 'https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/' \
+              'services/Covid19CountyStatisticsHPSCIrelandOpenData/' \
+              'FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json'
         response = requests.get(url).json()
         return response
 

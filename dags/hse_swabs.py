@@ -51,7 +51,9 @@ def hse_swabs():
 
     @task()
     def extract() -> dict:
-        url = 'https://services-eu1.arcgis.com/z6bHNio59iTqqSUY/arcgis/rest/services/LaboratoryLocalTimeSeriesHistoricView/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json'
+        url = 'https://services-eu1.arcgis.com/z6bHNio59iTqqSUY/arcgis/rest/' \
+              'services/LaboratoryLocalTimeSeriesHistoricView/FeatureServer/' \
+              '0/query?where=1%3D1&outFields=*&outSR=4326&f=json'
         response = requests.get(url).json()
         return response
 
