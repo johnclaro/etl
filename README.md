@@ -1,7 +1,7 @@
 # ETL
 ![ETL](https://github.com/johnclaro/etl/actions/workflows/main.yml/badge.svg)
 
-ETL for Covid data
+Run and manage ETLs using Apache Airflow
 
 ## Installation
 
@@ -9,7 +9,7 @@ ETL uses Python 3.7.0.
 ```sh-session
 # Use pip 20.2.4 to ensure Apache Airflow installation has no errors
 pip install --upgrade pip==20.2.4
-pip install -e .
+pip install -r requirements.txt
 ```
 
 ## Usage
@@ -35,38 +35,4 @@ dags_folder = ~/etl
 
 load_examples = False
 load_default_connections = False
-```
-
-## Layers
-
-ETL requires `requests` and `pandas` dependencies for AWS Lambda
-
-**requests**
-
-```sh-session
-mkdir -p layers/requests/python/lib/python3.7/site-packages
-pip install requests -t layers/python/lib/python3.7/site-packages
-zip -r9 requests.zip layers/requests/python
-```
-
-**pandas**
-
-Download, unzip and zip these files
-- [pandas-1.0.3-cp37-cp37m-manylinux1_x86_64.whl](https://pypi.org/project/pandas/#files)
-- [pytz-2019.3-py2.py3-none-any.whl](https://pypi.org/project/pytz/#files)
-
-```sh-session
-mkdir -p layers/pandas/python/lib/python3.7/site-packages
-
-# pandas
-unzip pandas-1.0.3-cp37-cp37m-manylinux1_x86_64.whl
-mv pandas/ layers/pandas/python/lib/python3.7/site-packages
-mv pandas-1.2.2.dist-info/ layers/pandas/python/lib/python3.7/site-packages
-
-# pytz
-unzip pytz-2019.3-py2.py3-none-any.whl
-mv pytz/ layers/pandas/python/lib/python3.7/site-packages
-mv pytz-2021.1.dist-info/ layers/pandas/python/lib/python3.7/site-packages
-
-zip -r9 pandas.zip layers/pandas/python
 ```
