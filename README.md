@@ -5,8 +5,10 @@ Automated ETLs using Apache Airflow
 
 ## Installation
 
-Dags uses **Python 3.7.0**.
+[Virtualenv](https://virtualenv.pypa.io/en/latest/) is recommended.
+
 ```console
+# python 3.7.0
 pip install --upgrade pip==20.2.4
 pip install -r requirements.txt
 ```
@@ -26,7 +28,7 @@ airflow webserver -p 8080 -D && airflow scheduler -D
 
 ## DAGs
 
-Update **airflow/airflow.cfg**
+Update `airflow/airflow.cfg`
 ```ini
 dags_folder = ~/dags/dags
 load_examples = False
