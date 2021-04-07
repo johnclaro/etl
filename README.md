@@ -8,7 +8,7 @@ Automated ETLs using Apache Airflow
 [Virtualenv](https://virtualenv.pypa.io/en/latest/) is recommended.
 
 ```console
-# python 3.7.0
+# python3.7
 pip install --upgrade pip==20.2.4
 pip install -r requirements.txt
 ```
