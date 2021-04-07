@@ -24,17 +24,13 @@ Start Airflow
 airflow webserver -p 8080 -D && airflow scheduler -D
 ```
 
-Run tests
-```sh-session
-python setup.py test
-```
-
 ## DAGs
 
 Update `airflow/airflow.cfg`
 ```
-dags_folder = ~/etl
-
+dags_folder = ~/dags/dags
 load_examples = False
 load_default_connections = False
+default_ui_timezone = Europe/Dublin
+default_timezone = Europe/Dublin
 ```
