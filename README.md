@@ -1,38 +1,38 @@
-# ETL
-![ETL](https://github.com/johnclaro/etl/actions/workflows/main.yml/badge.svg)
+# Dags
+![Dags](https://github.com/johnclaro/etl/actions/workflows/deploy.yml/badge.svg)
 
-Run and manage ETLs using Apache Airflow
+Automated ETLs using Apache Airflow
 
 ## Installation
 
-ETL uses Python 3.7.0.
-```sh-session
-# Use pip 20.2.4 to ensure Apache Airflow installation has no errors
+[Virtualenv](https://virtualenv.pypa.io/en/latest/) is recommended.
+
+```console
+# python3.7
 pip install --upgrade pip==20.2.4
 pip install -r requirements.txt
 ```
 
 ## Usage
 
-Installing the CLI provides access to the `etl` command.
-```sh-session
-etl [command]
-
-# Run `-h` for detailed information about commands
-etl -h
+Initialise Airflow
+```console
+airflow db init
+airflow users create --username john --firstname John --lastname Claro --role Admin --email jkrclaro@gmail.com
 ```
 
-Run tests
-```sh-session
-python setup.py test
+Start Airflow
+```console
+airflow webserver -p 8080 -D && airflow scheduler -D
 ```
 
 ## DAGs
 
 Update `airflow/airflow.cfg`
-```
-dags_folder = ~/etl
-
+```ini
+dags_folder = ~/dags/dags
 load_examples = False
 load_default_connections = False
+default_ui_timezone = Europe/Dublin
+default_timezone = Europe/Dublin
 ```
