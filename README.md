@@ -23,6 +23,7 @@ airflow users create --username john --firstname John --lastname Claro --role Ad
 
 Start Airflow
 ```console
+export PYTHONPATH=~/dags
 airflow webserver -p 8080 -D && airflow scheduler -D
 ```
 
