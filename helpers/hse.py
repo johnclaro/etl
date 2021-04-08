@@ -16,42 +16,8 @@ dag_args = {
 }
 
 
-def _clean_date(date):
-    try:
-        date = datetime.fromtimestamp(date)
-    except ValueError:
-        date = date / 1000  # Converts unix timestamp in ms to seconds
-        date = datetime.fromtimestamp(date)
-
-    date = date.strftime('%Y-%m-%d')
-    return date
-
-
 def transform(ti: TaskInstance, task: str) -> list:
-    response = ti.xcom_pull(task_ids=f'extract_{task}', key='response')
-
-    dates = (
-        'date',
-        'date_hpsc',
-        'statisticsprofiledate',
-        'timestampdate',
-    )
-    items = []
-    for feature in response['features']:
-        item = {}
-        attributes = feature['attributes']
-        for key, value in attributes.items():
-            key = key.lower()
-            if key in dates:
-                item[key] = _clean_date(value)
-            else:
-                item[key] = value
-        items.append(item)
-    ti.xcom_push(key='items', value=items)
-
-
-def transform_swabs(ti: TaskInstance, task: str) -> list:
-    response = ti.xcom_pull(task_ids=f'extract_{task}', key='response')
+    response = ti.xcom_pull(task_ids='extract', key='response')
 
     dates = (
         'date',
@@ -63,18 +29,10 @@ def transform_swabs(ti: TaskInstance, task: str) -> list:
     for index, feature in enumerate(response['features']):
         item = {}
         attributes = feature['attributes']
-        pos1 = attributes.get('Positive')
-        prate = attributes.get('PRate')
-        total_labs = attributes.get('TotalLabs')
-        if index:
-            prev_attrs = response['features'][index - 1]['attributes']
-            prev_pos = prev_attrs.get('Positive')
-            prev_labs = prev_attrs.get('TotalLabs')
-            pos1 -= prev_pos
-            prate = (pos1 / (total_labs - prev_labs)) * 100
-            prate = round(prate, 1)
-        attributes['pos1'] = pos1
-        attributes['posr1'] = prate
+
+        if task == 'swabs':
+            attributes = _get_daily_swabs(attributes, response, index)
+
         for key, value in attributes.items():
             key = key.lower()
             if key in dates:
@@ -83,3 +41,30 @@ def transform_swabs(ti: TaskInstance, task: str) -> list:
                 item[key] = value
         items.append(item)
     ti.xcom_push(key='items', value=items)
+
+
+def _clean_date(date):
+    try:
+        date = datetime.fromtimestamp(date)
+    except ValueError:
+        date = date / 1000  # Converts unix timestamp in ms to seconds
+        date = datetime.fromtimestamp(date)
+
+    date = date.strftime('%Y-%m-%d')
+    return date
+
+
+def _get_daily_swabs(attributes: dict, response: dict, index: int) -> dict:
+    pos1 = attributes.get('Positive')
+    prate = attributes.get('PRate')
+    total_labs = attributes.get('TotalLabs')
+    if index:
+        prev_attrs = response['features'][index - 1]['attributes']
+        prev_pos = prev_attrs.get('Positive')
+        prev_labs = prev_attrs.get('TotalLabs')
+        pos1 -= prev_pos
+        prate = (pos1 / (total_labs - prev_labs)) * 100
+        prate = round(prate, 1)
+    attributes['pos1'] = pos1
+    attributes['posr1'] = prate
+    return attributes

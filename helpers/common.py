@@ -25,7 +25,7 @@ def extract(ti: TaskInstance, url: str) -> dict:
 
 def load(ti: TaskInstance, task: str) -> None:
     url = f'hse/{task}/upsert'
-    items = ti.xcom_pull(task_ids=f'transform_{task}', key='items')
+    items = ti.xcom_pull(task_ids='transform', key='items')
 
     username = Variable.get('BACKEND_USERNAME', default_var='guestusername')
     password = Variable.get('BACKEND_PASSWORD', default_var='guestpassword')

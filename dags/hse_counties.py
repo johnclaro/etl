@@ -12,19 +12,19 @@ dag_args['description'] += f' {task}'
 
 with DAG(**dag_args) as dag:
     extract_task = PythonOperator(
-        task_id=f'extract_{task}',
+        task_id='extract',
         python_callable=extract,
         op_kwargs={'url': url},
     )
 
     transform_task = PythonOperator(
-        task_id=f'transform_{task}',
+        task_id='transform',
         python_callable=transform,
         op_kwargs={'task': task},
     )
 
     load_task = PythonOperator(
-        task_id=f'load_{task}',
+        task_id='load',
         python_callable=load,
         op_kwargs={'task': task},
     )
