@@ -5,7 +5,9 @@ from helpers.common import extract, load
 from helpers.hse import transform, dag_args
 
 task = 'swabs'
-url = 'https://services-eu1.arcgis.com/z6bHNio59iTqqSUY/arcgis/rest/services/LaboratoryLocalTimeSeriesHistoricView/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json'
+url = 'https://services-eu1.arcgis.com/z6bHNio59iTqqSUY/arcgis/rest/' \
+      'services/LaboratoryLocalTimeSeriesHistoricView/FeatureServer/0/query' \
+      '?where=1%3D1&outFields=*&outSR=4326&f=json'
 dag_args['dag_id'] += f'_{task}'
 dag_args['description'] += f' {task}'
 
