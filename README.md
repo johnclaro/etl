@@ -1,5 +1,6 @@
 # Dags
-![Dags](https://github.com/johnclaro/etl/actions/workflows/deploy.yml/badge.svg)
+![Deploy](https://github.com/johnclaro/etl/actions/workflows/deploy.yml/badge.svg)
+[![Test](https://github.com/johnclaro/dags/actions/workflows/test.yml/badge.svg)](https://github.com/johnclaro/dags/actions/workflows/test.yml)
 
 Automated ETLs using Apache Airflow
 
