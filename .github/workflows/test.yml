@@ -23,6 +23,7 @@ jobs:
         export PYTHONPATH=.
         airflow db init
         pytest
+        airflow dags list
         airflow tasks test hse_cases extract 2021-04-07
         airflow tasks test hse_cases transform 2021-04-07
         airflow tasks test hse_cases load 2021-04-07
