@@ -21,9 +21,9 @@ jobs:
     - name: Test with pytest and airflow
       run: |
         export PYTHONPATH=.
+        airflow scheduler -D
         airflow db init
         pytest
-        airflow scheduler -D
         airflow tasks test hse_cases extract 2021-04-07
         airflow tasks test hse_cases transform 2021-04-07
         airflow tasks test hse_cases load 2021-04-07
