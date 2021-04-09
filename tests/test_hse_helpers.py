@@ -7,7 +7,7 @@ from helpers.hse import _clean_date, _calculate_daily_swabs, update_dag_args
 def attrs():
     return {
         'Positive': 1,
-        'Prate': 1,
+        'PRate': 1,
         'TotalLabs': 1,
     }
 
