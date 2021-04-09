@@ -1,4 +1,4 @@
-name: Dags
+name: Deploy
 on:
   push:
     branches: [ main ]
