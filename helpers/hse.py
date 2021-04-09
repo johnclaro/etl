@@ -16,7 +16,16 @@ dag_args = {
 }
 
 
-def transform(ti: TaskInstance, task: str) -> list:
+def transform(ti: TaskInstance, task: str) -> None:
+    """Transforms HSE JSON data into its JSON Django model equivalent.
+
+    Args:
+        ti: Task instance from a dag
+        task: Name of an HSE task, e.g. cases, swabs, counties
+
+    Returns:
+        None but data is pushed through XCom
+    """
     response = ti.xcom_pull(task_ids='extract', key='response')
 
     dates = (
@@ -28,22 +37,33 @@ def transform(ti: TaskInstance, task: str) -> list:
     items = []
     for index, feature in enumerate(response['features']):
         item = {}
-        attributes = feature['attributes']
+        attrs = feature['attributes']
 
         if task == 'swabs':
-            attributes = _get_daily_swabs(attributes, response, index)
+            if index:
+                prev_attrs = response['features'][index - 1]['attributes']
+            attrs = _calculate_daily_swabs(attrs, prev_attrs)
 
-        for key, value in attributes.items():
+        for key, value in attrs.items():
             key = key.lower()
             if key in dates:
                 item[key] = _clean_date(value)
             else:
                 item[key] = value
         items.append(item)
+
     ti.xcom_push(key='items', value=items)
 
 
-def _clean_date(date):
+def _clean_date(date: int) -> str:
+    """Converts a unix timestamp into its date string equivalent.
+
+    Args:
+        date: Unix timestamp
+
+    Returns:
+        A date in YYYY-MM-DD format
+    """
     try:
         date = datetime.fromtimestamp(date)
     except ValueError:
@@ -54,17 +74,25 @@ def _clean_date(date):
     return date
 
 
-def _get_daily_swabs(attributes: dict, response: dict, index: int) -> dict:
-    pos1 = attributes.get('Positive')
-    prate = attributes.get('PRate')
-    total_labs = attributes.get('TotalLabs')
-    if index:
-        prev_attrs = response['features'][index - 1]['attributes']
-        prev_pos = prev_attrs.get('Positive')
-        prev_labs = prev_attrs.get('TotalLabs')
+def _calculate_daily_swabs(attrs: dict, prev_attrs: dict = None) -> dict:
+    """Calculates the daily value of swabs.
+
+    Args:
+        attrs: Current attributes of HSE data
+        prev_attrs: Previous attributes of HSE data
+
+    Returns:
+        Updated attrs dict with newly added "pos1" and "posr1" key values
+    """
+    pos1 = attrs['Positive']
+    prate = attrs['Prate']
+    total_labs = attrs['TotalLabs']
+    if prev_attrs:
+        prev_pos = prev_attrs['Positive']
+        prev_labs = prev_attrs['TotalLabs']
         pos1 -= prev_pos
         prate = (pos1 / (total_labs - prev_labs)) * 100
         prate = round(prate, 1)
-    attributes['pos1'] = pos1
-    attributes['posr1'] = prate
-    return attributes
+    attrs['pos1'] = pos1
+    attrs['posr1'] = prate
+    return attrs

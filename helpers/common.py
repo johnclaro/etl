@@ -19,11 +19,32 @@ default_args = {
 
 
 def extract(ti: TaskInstance, url: str) -> dict:
+    """Sends an HTTP GET request to extract JSON data.
+
+    Args:
+        ti: Task instance of a dag
+        url: URL to be extracted
+
+    Returns:
+        None but data is pushed through XCom
+    """
     response = requests.get(url).json()
     ti.xcom_push(key='response', value=response)
 
 
 def load(ti: TaskInstance, task: str) -> None:
+    """Sends an HTTP POST request to backend with newly transformed COVID data.
+
+    It first authenticates by logging in to get the JWT access token.
+    Sets access token to header of the next request for uploading COVID data.
+
+    Args:
+        ti: Task instance of a dag
+        task:  Name of an HSE task, e.g. cases, swabs, counties
+
+    Returns:
+        None
+    """
     url = f'hse/{task}/upsert'
     items = ti.xcom_pull(task_ids='transform', key='items')
 
