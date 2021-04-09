@@ -40,6 +40,7 @@ def transform(ti: TaskInstance, task: str) -> None:
         attrs = feature['attributes']
 
         if task == 'swabs':
+            prev_attrs = None
             if index:
                 prev_attrs = response['features'][index - 1]['attributes']
             pos1, prate = _calculate_daily_swabs(attrs, prev_attrs)
@@ -87,7 +88,7 @@ def _calculate_daily_swabs(attrs: dict, prev_attrs: dict = None) -> dict:
         Updated attrs dict with newly added "pos1" and "posr1" key values
     """
     pos1 = attrs['Positive']
-    prate = attrs['Prate']
+    prate = attrs['PRate']
     total_labs = attrs['TotalLabs']
     if prev_attrs:
         prev_pos = prev_attrs['Positive']
@@ -100,3 +101,17 @@ def _calculate_daily_swabs(attrs: dict, prev_attrs: dict = None) -> dict:
             prate = 0
         prate = round(prate, 1)
     return pos1, prate
+
+
+def update_dag_args(task: str) -> dict:
+    """Updates dag arguments for the task.
+
+    Args:
+        task: Name of an HSE task, e.g. cases, swabs, counties
+
+    Returns:
+        Updated dag_args with task-specific values
+    """
+    dag_args['dag_id'] = f'hse_{task}'
+    dag_args['description'] = f'ETL for HSE {task}'
+    return dag_args

@@ -2,14 +2,13 @@ from airflow.models import DAG
 from airflow.operators.python import PythonOperator
 
 from helpers.common import extract, load
-from helpers.hse import transform, dag_args
+from helpers.hse import transform, update_dag_args
 
 task = 'cases'
 url = 'https://services1.arcgis.com/eNO7HHeQ3rUcBllm/arcgis/rest/services/' \
       'CovidStatisticsProfileHPSCIrelandOpenData/FeatureServer/0/query' \
       '?where=1%3D1&outFields=*&outSR=4326&f=json'
-dag_args['dag_id'] += f'_{task}'
-dag_args['description'] += f' {task}'
+dag_args = update_dag_args(task)
 
 
 with DAG(**dag_args) as dag:

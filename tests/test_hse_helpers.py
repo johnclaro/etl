@@ -1,6 +1,6 @@
 import pytest
 
-from helpers.hse import _clean_date, _calculate_daily_swabs
+from helpers.hse import _clean_date, _calculate_daily_swabs, update_dag_args
 
 
 @pytest.fixture
@@ -35,5 +35,12 @@ def test_should_pass_when_calculating_daily_swabs_with_same_previous_attributes(
         'TotalLabs': 1,
     }
     assert (0, 0) == _calculate_daily_swabs(attrs, prev_attrs)
+
+
+def test_should_pass_when_updating_dag_args():
+    task = 'cases'
+    output = update_dag_args(task)
+    assert 'hse_cases' == output['dag_id']
+    assert 'ETL for HSE cases' == output['description']
 
 # flake8: noqa
