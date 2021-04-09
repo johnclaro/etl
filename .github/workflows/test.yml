@@ -18,18 +18,7 @@ jobs:
       run: |
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-    - name: Test with pytest and airflow
+    - name: Test with pytest
       run: |
         export PYTHONPATH=.
-        airflow scheduler -D
-        airflow db init
         pytest
-        airflow tasks test hse_cases extract 2021-04-07
-        airflow tasks test hse_cases transform 2021-04-07
-        airflow tasks test hse_cases load 2021-04-07
-        airflow tasks test hse_counties extract 2021-04-07
-        airflow tasks test hse_counties transform 2021-04-07
-        airflow tasks test hse_counties load 2021-04-07
-        airflow tasks test hse_swabs extract 2021-04-07
-        airflow tasks test hse_swabs transform 2021-04-07
-        airflow tasks test hse_swabs load 2021-04-07
