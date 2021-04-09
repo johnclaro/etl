@@ -1,5 +1,6 @@
 # Dags
-![Dags](https://github.com/johnclaro/etl/actions/workflows/deploy.yml/badge.svg)
+![Deploy](https://github.com/johnclaro/etl/actions/workflows/deploy.yml/badge.svg)
+[![Test](https://github.com/johnclaro/dags/actions/workflows/test.yml/badge.svg)](https://github.com/johnclaro/dags/actions/workflows/test.yml)
 
 Automated ETLs using Apache Airflow
 
@@ -23,6 +24,7 @@ airflow users create --username john --firstname John --lastname Claro --role Ad
 
 Start Airflow
 ```console
+export PYTHONPATH=~/dags
 airflow webserver -p 8080 -D && airflow scheduler -D
 ```
 
