@@ -42,7 +42,9 @@ def transform(ti: TaskInstance, task: str) -> None:
         if task == 'swabs':
             if index:
                 prev_attrs = response['features'][index - 1]['attributes']
-            attrs = _calculate_daily_swabs(attrs, prev_attrs)
+            pos1, prate = _calculate_daily_swabs(attrs, prev_attrs)
+            attrs['pos1'] = pos1
+            attrs['posr1'] = prate
 
         for key, value in attrs.items():
             key = key.lower()
@@ -91,8 +93,10 @@ def _calculate_daily_swabs(attrs: dict, prev_attrs: dict = None) -> dict:
         prev_pos = prev_attrs['Positive']
         prev_labs = prev_attrs['TotalLabs']
         pos1 -= prev_pos
-        prate = (pos1 / (total_labs - prev_labs)) * 100
+        labs = (total_labs - prev_labs)
+        try:
+            prate = (pos1 / labs) * 100
+        except ZeroDivisionError:
+            prate = 0
         prate = round(prate, 1)
-    attrs['pos1'] = pos1
-    attrs['posr1'] = prate
-    return attrs
+    return pos1, prate
